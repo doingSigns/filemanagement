@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.fileManager.SignupController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="WHITE" strokeType="INSIDE" width="600.0">
+         <fill>
+            <LinearGradient endX="0.5528846153846154" endY="0.951923076923077">
+               <stops>
+                  <Stop color="#360ab9" />
+                  <Stop color="#280f80" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Text fill="WHITE" layoutX="248.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <GridPane layoutX="93.0" layoutY="76.0" prefHeight="117.0" prefWidth="396.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+            <TextField fx:id="lastnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="userTextField" layoutX="261.0" layoutY="64.0" GridPane.columnIndex="1" />
+            <Text fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LastName" GridPane.rowIndex="2" />
+            <Text fill="WHITE" layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FirstName" GridPane.rowIndex="1" />
+            <TextField fx:id="firstnameTextField" layoutX="261.0" layoutY="47.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text fill="WHITE" layoutX="10.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" GridPane.rowIndex="3" />
+            <TextField fx:id="passwordTextField" layoutX="263.0" layoutY="53.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <Text fill="WHITE" layoutX="179.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already an existing user?" />
+      <Button fx:id="loginBtn" layoutX="360.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginBtnHandler" text="Login" textFill="#370ac9" />
+      <Button fx:id="registerBtn" layoutX="351.0" layoutY="207.0" mnemonicParsing="false" onAction="#registerBtnHandler" text="Register" textFill="#370ac9" />
+   </children>
+</AnchorPane>

@@ -24,11 +24,11 @@ public class App extends Application {
         myObj.createTable(myObj.getTableName());
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("primary.fxml"));
+            loader.setLocation(getClass().getResource("login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Primary View");
+            secondaryStage.setTitle("Login Details");
             secondaryStage.show();
 
         } catch (IOException e) {
