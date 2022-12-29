@@ -18,10 +18,10 @@ public class App extends Application {
         Stage secondaryStage = new Stage();
         DatabaseConnection myObj = new DatabaseConnection();
         myObj.log("-------- File Manager Course Work ------------");
-        myObj.log("\n---------- Drop table ----------");
+        /*myObj.log("\n---------- Drop table ----------");
         myObj.delTable(myObj.getTableName());
         myObj.log("\n---------- Create table ----------");
-        myObj.createTable(myObj.getTableName());
+        myObj.createTable(myObj.getTableName()); */
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("login.fxml"));

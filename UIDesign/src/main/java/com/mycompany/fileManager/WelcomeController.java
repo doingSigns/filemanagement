@@ -7,6 +7,8 @@ package com.mycompany.fileManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -36,6 +39,16 @@ public class WelcomeController  {
     private Button upload;
       @FXML
     private Button view;
+      
+      @FXML 
+      private Button createFile;
+      
+      @FXML
+      private TextArea fileContent;
+      
+      @FXML
+      private Button saveBtn;
+   
    //   @FXML
    // private MenuItem loginBtn;
 @FXML
@@ -53,7 +66,7 @@ public class WelcomeController  {
 
     @FXML
     void logout(ActionEvent event) throws IOException {
-   /*     Stage secondaryStage = new Stage();
+      /* Stage secondaryStage = new Stage();
         Stage primaryStage= (Stage) loginBtn.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -99,11 +112,77 @@ public class WelcomeController  {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        File file = fileChooser.showOpenDialog(primaryStage);
         
-        if(selectedFile!=null){
-            fileText.setText((String)selectedFile.getCanonicalPath());
+        if (file == null){
+            return;
         }
+        try{
+            String shellInput = "docker cp " + file.getAbsolutePath() + " ntu-vm-soft40051:/";
+            String[] commandAndArgs = new String[]{"/bin/sh", "-c" , shellInput};
+           
+           Process process = Runtime.getRuntime().exec(commandAndArgs);
+           process.waitFor();
+        
+           System.out.println("Succesful File Upload");
+                }catch (IOException | InterruptedException e){
+                    e.printStackTrace();
+                    
+                }
+        
+    }
+    @FXML 
+     private void createFileHandler (ActionEvent event){
+         
+         System.out.println("Got here create file 117");
+         
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) createFile.getScene().getWindow();
+         
+          try{
+               FXMLLoader loader = new FXMLLoader();
+               loader.setLocation(getClass().getResource("textEditor.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("text editor");
+            secondaryStage.show();
+            primaryStage.close();
+           
+           
+            
+        }catch (IOException e){
+            System.out.println("An error occured.");
+        }
+         
+         
+         
+         
+        
+    }
+    
+    @FXML 
+     private void saveBtnHandler (ActionEvent event){
+         
+         
+          try{
+            
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
+            if(file ==null){
+                return;
+            }
+            
+            String content = fileContent.getText();
+            Files.write(file.toPath(), content.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.TRUNCATE_EXISTING);
+            dialogue("File Saved Successfully","File Created Successfully");
+        }catch (IOException e){
+            System.out.println("An error occured.");
+        }
+         
+         
+         
+         
         
     }
 

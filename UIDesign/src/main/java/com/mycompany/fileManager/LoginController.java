@@ -68,7 +68,6 @@ public class LoginController {
                
                 try {
              DatabaseConnection connect = new DatabaseConnection ();
-             String [] credentials = {usernameTextField.getText(), passwordTextField.getText()};
             
             if(connect.validateUser(usernameTextField.getText(), passwordTextField.getText())){
             FXMLLoader loader = new FXMLLoader();

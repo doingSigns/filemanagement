@@ -20,6 +20,23 @@ public class User {
     private boolean isAdmin ;
 
     User(String username, String password, String firstname, String lastname,String email, boolean isAdmin) {
+        if(username == null || username.isEmpty()){
+            throw new NullPointerException("Username must not be null or empty");
+        }
+        if(password == null || password.isEmpty()){
+            throw new NullPointerException("Password must not be null or empty");
+        }
+         
+        if(firstname == null || firstname.isEmpty()){
+            throw new NullPointerException("FirstName must not be null or empty");
+        }
+        if(lastname == null || lastname.isEmpty()){
+            throw new NullPointerException("Last Name must not be null or empty");
+        }
+        if(email == null || email.isEmpty()){
+            throw new NullPointerException("Email must not be null or empty");
+        }
+        
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
         this.firstname = new SimpleStringProperty(firstname);
