@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import com.mycompany.fileManager.User;
 
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
@@ -121,6 +122,7 @@ public class DatabaseConnection {
     }
 
     /**
+     * @throws java.security.spec.InvalidKeySpecException
      * @brief add data to the database method
      * @param user name of type String
      * @param password of type String
@@ -186,22 +188,25 @@ public class DatabaseConnection {
     }
 
     /**
+     * @param username
+     * @param passwordHash
+     * @throws java.security.spec.InvalidKeySpecException
      * @brief decode password method
-     * @param user name as type String
-     * @param pass plain password of type String
      * @return true if the credentials are valid, otherwise false
      */
-    public boolean validateUser(String user, String pass) throws InvalidKeySpecException {
+    public boolean validateUser(String username, String passwordHash) throws InvalidKeySpecException {
         Boolean flag = false;
         try {
             connection = DriverManager.getConnection(fileName);
             var statement = connection.createStatement();
             statement.setQueryTimeout(timeout);
-            ResultSet rs = statement.executeQuery("select name, password from " + this.dataBaseTableName);
-            String inPass = generateSecurePassword(pass);
+            ResultSet rs = statement.executeQuery("select username, passwordHash from " + this.dataBaseTableName);
+            String inPass = generateSecurePassword(passwordHash);
+            
+             
             // Let's iterate through the java ResultSet
             while (rs.next()) {
-                if (user.equals(rs.getString("name")) && rs.getString("password").equals(inPass)) {
+                if (username.equals(rs.getString("username")) && rs.getString("passwordHash").equals(inPass)) {
                     flag = true;
                     break;
                 }
@@ -246,10 +251,10 @@ public class DatabaseConnection {
         }
     }
 
-    public String generateSecurePassword(String password) throws InvalidKeySpecException {
+    public String generateSecurePassword(String passwordHash) throws InvalidKeySpecException {
         String finalval = null;
 
-        byte[] securePassword = hash(password.toCharArray(), saltValue.getBytes());
+        byte[] securePassword = hash(passwordHash.toCharArray(), saltValue.getBytes());
 
         finalval = Base64.getEncoder().encodeToString(securePassword);
 
@@ -302,3 +307,4 @@ public class DatabaseConnection {
 //        }
 //    }
 }
+   

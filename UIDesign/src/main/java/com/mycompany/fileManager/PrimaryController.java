@@ -24,10 +24,10 @@ public class PrimaryController {
     private Button registerBtn;
 
     @FXML
-    private TextField userTextField;
+    private TextField usernameTextField;
 
     @FXML
-    private PasswordField passPasswordField;
+    private PasswordField PasswordField;
 
     @FXML
     private void registerBtnHandler(ActionEvent event) {
@@ -62,13 +62,13 @@ public class PrimaryController {
     }
 
     @FXML
-    private void switchToSecondary() {
+    private void switchToSecondary() throws InvalidKeySpecException {
         Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) registerBtn.getScene().getWindow();
         try {
             DatabaseConnection myObj = new DatabaseConnection();
-            String[] credentials = {userTextField.getText(), passPasswordField.getText()};
-            if(myObj.validateUser(userTextField.getText(), passPasswordField.getText())){
+            String[] credentials = {usernameTextField.getText(), PasswordField.getText()};
+            if(myObj.validateUser(usernameTextField.getText(), PasswordField.getText())){
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("secondary.fxml"));
                 Parent root = loader.load();
@@ -86,7 +86,7 @@ public class PrimaryController {
                 dialogue("Invalid User Name / Password","Please try again!");
             }
 
-        } catch (IOException | InvalidKeySpecException e) {
+        } catch (IOException e) {
         }
     }
 }

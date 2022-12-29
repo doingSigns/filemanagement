@@ -44,7 +44,7 @@ public class RegisterController {
    
 
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordHashField;
 
     @FXML
     private PasswordField retypePasswordField;
@@ -101,12 +101,12 @@ public class RegisterController {
         try {
             FXMLLoader loader = new FXMLLoader();
          
-            if (passwordField.getText().equals(retypePasswordField.getText())) {
+            if (passwordHashField.getText().equals(retypePasswordField.getText())) {
                 DatabaseConnection myObj = new DatabaseConnection();
-                User user = new User (usernameTextField.getText(), passwordField.getText(),firstNameField.getText(),lastNameField.getText(),emailField.getText(),false);
+                User user = new User (usernameTextField.getText(), passwordHashField.getText(),firstNameField.getText(),lastNameField.getText(),emailField.getText(),false);
                 myObj.addDataToDB(user);
                 dialogue("Adding information to the database", "Successful!");
-                String[] credentials = {usernameTextField.getText(), passwordField.getText()};
+                String[] credentials = {usernameTextField.getText(), passwordHashField.getText()};
                 loader.setLocation(getClass().getResource("secondary.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 640, 480);

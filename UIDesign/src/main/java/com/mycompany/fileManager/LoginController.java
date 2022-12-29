@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.mycompany.fileManager.UserLogin;
+import java.io.IOException;
 
 /**
  * FXML Controller class
@@ -25,7 +27,7 @@ import javafx.stage.Stage;
 public class LoginController {
 
     @FXML
-    private TextField userTextField;
+    private TextField usernameTextField;
 
     @FXML
     private PasswordField passwordTextField;
@@ -39,7 +41,7 @@ public class LoginController {
   
 
     @FXML
-   private void loginBtHandler(ActionEvent event) {
+   private void loginBtHandler(ActionEvent event) throws IOException {
             Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) loginBt.getScene().getWindow();
         try {
@@ -52,14 +54,14 @@ public class LoginController {
             secondaryStage.show();
             primaryStage.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+           System.out.println(ex);
         }
 
     }
 
     @FXML
-    private void registerBtnHandler(ActionEvent event) {
+    private void registerBtnHandler(ActionEvent event) throws IOException {
 Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) registerBtn.getScene().getWindow();
         try {
@@ -72,8 +74,8 @@ Stage secondaryStage = new Stage();
             secondaryStage.show();
             primaryStage.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+             System.out.println(ex);
         }
 
     }

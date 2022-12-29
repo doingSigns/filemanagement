@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mycompany.fileManager.DatabaseConnection;
 
 /**
  *
@@ -34,7 +35,11 @@ public class UserLogin {
         try {
             // Get the password saved in the DB
             
-            connect.validateUser(username, password);
+             if(connect.validateUser(username, password)  ){
+                 System.out.println("Login is successful");
+             }else {
+                 System.out.println("Incorrect username/password entered");
+             }
             
             // Check of the 
         } catch (InvalidKeySpecException ex) {
