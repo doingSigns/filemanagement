@@ -57,7 +57,7 @@ public class RegisterController {
      
      @FXML
     private TextField lastNameField;
-     
+    
      @FXML
     private TextField emailField;
     

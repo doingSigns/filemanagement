@@ -16,8 +16,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.mycompany.fileManager.UserLogin;
 import java.io.IOException;
+import com.mycompany.fileManager.DatabaseConnection;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -39,9 +47,58 @@ public class LoginController {
     private Button loginBt;
 
   
+   
+       private void dialogue(String headerMsg, String contentMsg) {
+        Stage secondaryStage = new Stage();
+        Group root = new Group();
+        Scene scene = new Scene(root, 300, 300, Color.DARKGRAY);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText(headerMsg);
+        alert.setContentText(contentMsg);
+        Optional<ButtonType> result = alert.showAndWait();
+    }
 
     @FXML
    private void loginBtHandler(ActionEvent event) throws IOException {
+       
+ 
+      Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) loginBt.getScene().getWindow();
+               
+                try {
+             DatabaseConnection connect = new DatabaseConnection ();
+             String [] credentials = {usernameTextField.getText(), passwordTextField.getText()};
+            
+            if(connect.validateUser(usernameTextField.getText(), passwordTextField.getText())){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("welcome.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Login Successful");
+            secondaryStage.show();
+            primaryStage.close();
+                 
+             }else {
+                 dialogue("Incorrect User Name / Password", "Please try again!");
+             }
+            
+            // Check of the 
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(UserLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+       /*if(usernameTextField.getText().equals("username") && passwordTextField.getText().equals("password")){
+           
+           
+           
+       }*/
+       
+       
+       
+       /*
             Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) loginBt.getScene().getWindow();
         try {
@@ -56,7 +113,7 @@ public class LoginController {
 
         } catch (IOException ex) {
            System.out.println(ex);
-        }
+        }*/
 
     }
 

@@ -42,7 +42,7 @@ public class SignupController  {
     private TextField firstnameTextField;
 
     @FXML
-    private PasswordField repasswordTextField;
+    private PasswordField retypepasswordTextField;
 
     @FXML
   private void loginBtnHandler(ActionEvent event) {
