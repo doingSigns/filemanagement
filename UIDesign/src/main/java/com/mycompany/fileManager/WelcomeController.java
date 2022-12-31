@@ -12,6 +12,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +24,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -38,18 +42,20 @@ public class WelcomeController  {
 
      @FXML
     private Button upload;
-      @FXML
-    private Button view;
-      
+   
       @FXML 
       private Button createFile;
       
       @FXML
       private TextArea fileContent;
+      
+      @FXML
+    private TableView dataTableView;
    
       
       @FXML
       private Button saveBtn;
+      
       
       
    
@@ -66,47 +72,10 @@ public class WelcomeController  {
     @FXML
     void deleteprofile(ActionEvent event) {
 
-    }
+    
 
-    @FXML
-    void logout(ActionEvent event) throws IOException {
-      /* Stage secondaryStage = new Stage();
-        Stage primaryStage= (Stage) loginBtn.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("login.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 640, 480);
-            secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login");
-            secondaryStage.show();
-            primaryStage.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }*/
-    }
-
-    @FXML
-    void viewBtn(ActionEvent event) {
-        Stage secondaryStage = new Stage();
-        Stage primaryStage = (Stage) view.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("files.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 640, 480);
-            secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Your Files");
-            secondaryStage.show();
-            primaryStage.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    
+    
     }
 
     @FXML
@@ -134,7 +103,25 @@ public class WelcomeController  {
                     e.printStackTrace();
                     
                 }
-        
+   /* }
+                @FXML
+   private void loginBtn(ActionEvent event) throws IOException {
+        Stage secondaryStage = new Stage();
+        Stage primaryStage= (Stage) login.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Login");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
     }
     @FXML 
      private void createFileHandler (ActionEvent event){
@@ -164,9 +151,25 @@ public class WelcomeController  {
          
          
          
-         
+             }
+
+   public void initialise(String[] credentials) {
+    //userTextField.setText(credentials[0]);
+        DatabaseConnection myObj = new DatabaseConnection();
+        ObservableList<String> data = myObj.getDataFromTable();
+        TableColumn user = new TableColumn("User");
+        user.setCellValueFactory(
+        new PropertyValueFactory<>("user"));
+
+        TableColumn pass = new TableColumn("Pass");
+        pass.setCellValueFactory(
+            new PropertyValueFactory<>("pass"));
+        dataTableView.setItems(data);
+        dataTableView.getColumns().addAll(user, pass); 
         
     }
+
+
     
     @FXML 
      private void saveBtnHandler (ActionEvent event){
