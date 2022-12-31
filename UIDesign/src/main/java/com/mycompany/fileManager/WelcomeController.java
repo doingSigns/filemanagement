@@ -7,6 +7,8 @@ package com.mycompany.fileManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,13 +16,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -31,19 +33,24 @@ import javafx.stage.Stage;
  *
  * @author ntu-user
  */
-public class WelcomeController   {
+public class WelcomeController  {
 
      @FXML
     private Button upload;
-     
-  //@FXML
- // private MenuItem login;
-    //@FXML 
-// private Parent login;
-  
-   @FXML
-    private Button back;
-     
+      @FXML
+    private Button view;
+      
+      @FXML 
+      private Button createFile;
+      
+      @FXML
+      private TextArea fileContent;
+      
+      @FXML
+      private Button saveBtn;
+   
+   //   @FXML
+   // private MenuItem loginBtn;
 @FXML
     private Text fileText;
 
@@ -53,14 +60,14 @@ public class WelcomeController   {
     }
 
     @FXML
-   private void deleteprofile(ActionEvent event) {
+    void deleteprofile(ActionEvent event) {
 
-   /* }
+    }
 
     @FXML
-   private void logout(ActionEvent event) throws IOException {
-       Stage secondaryStage = new Stage();
-       Stage primaryStage = (Stage) login.getScene().getWindow();
+    void logout(ActionEvent event) throws IOException {
+      /* Stage secondaryStage = new Stage();
+        Stage primaryStage= (Stage) loginBtn.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("login.fxml"));
@@ -73,44 +80,109 @@ public class WelcomeController   {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
-   }
-   @FXML
-   private void backBtn(ActionEvent event) {
+        }
+
+    }*/
+    }
+
+    @FXML
+    void viewBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
-       Stage primaryStage = (Stage) back.getScene().getWindow();
+        Stage primaryStage = (Stage) view.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("login.fxml"));
+            loader.setLocation(getClass().getResource("files.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login");
+            secondaryStage.setTitle("Your Files");
             secondaryStage.show();
             primaryStage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        
-   }
-   }
-  
-    
+        }
 
-  
+    }
 
     @FXML
-  private  void uploadHandler(ActionEvent event) throws IOException {
+    void uploadHandler(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) upload.getScene().getWindow();
         primaryStage.setTitle("Select a File");
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        dialogue("Congratulations","Successfully Uploaded a file" );
-        if(selectedFile!=null){
-            fileText.setText((String)selectedFile.getCanonicalPath());
+        File file = fileChooser.showOpenDialog(primaryStage);
+        
+        if (file == null){
+            return;
         }
+        try{
+            String shellInput = "docker cp " + file.getAbsolutePath() + " ntu-vm-soft40051:/";
+            String[] commandAndArgs = new String[]{"/bin/sh", "-c" , shellInput};
+           
+           Process process = Runtime.getRuntime().exec(commandAndArgs);
+           process.waitFor();
+        
+           System.out.println("Succesful File Upload");
+                }catch (IOException | InterruptedException e){
+                    e.printStackTrace();
+                    
+                }
+        
+    }
+    @FXML 
+     private void createFileHandler (ActionEvent event){
+         
+         System.out.println("Got here create file 117");
+         
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) createFile.getScene().getWindow();
+         
+          try{
+               FXMLLoader loader = new FXMLLoader();
+               loader.setLocation(getClass().getResource("textEditor.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("text editor");
+            secondaryStage.show();
+            primaryStage.close();
+           
+           
+            
+        }catch (IOException e){
+            System.out.println("An error occured.");
+        }
+         
+         
+         
+         
+        
+    }
+    
+    @FXML 
+     private void saveBtnHandler (ActionEvent event){
+         
+         
+          try{
+            
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
+            if(file ==null){
+                return;
+            }
+            
+            String content = fileContent.getText();
+            Files.write(file.toPath(), content.getBytes(),StandardOpenOption.CREATE,StandardOpenOption.TRUNCATE_EXISTING);
+            dialogue("File Saved Successfully","File Created Successfully");
+        }catch (IOException e){
+            System.out.println("An error occured.");
+        }
+         
+         
+         
+         
         
     }
 
