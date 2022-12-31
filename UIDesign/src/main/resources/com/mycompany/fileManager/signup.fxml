@@ -13,7 +13,8 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" stroke="WHITE" strokeType="INSIDE" width="670.0">
          <fill>
-            <LinearGradient endX="0.5528846153846154" endY="0.951923076923077">
+            
+            <LinearGradient endX="0.5528846153846154" endY="0.9515923076923077">
                <stops>
                   <Stop color="#360ab9" />
                   <Stop color="#280f80" offset="1.0" />
@@ -40,19 +41,23 @@
         </rowConstraints>
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-            <TextField fx:id="lastnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="userTextField" layoutX="261.0" layoutY="64.0" GridPane.columnIndex="1" />
+            <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="usernameField" layoutX="261.0" layoutY="64.0" GridPane.columnIndex="1" />
             <Text fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LastName" GridPane.rowIndex="2" />
             <Text fill="WHITE" layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FirstName" GridPane.rowIndex="1" />
-            <TextField fx:id="firstnameTextField" layoutX="261.0" layoutY="47.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="firstNameField" layoutX="261.0" layoutY="47.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+           
             <Text fill="WHITE" layoutX="10.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" GridPane.rowIndex="3" />
             <Text fill="WHITE" layoutX="10.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Retype Password" GridPane.rowIndex="4" />
-            <PasswordField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <PasswordField fx:id="repasswordTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <PasswordField fx:id="retypepasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text fill="WHITE" layoutX="10.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" GridPane.rowIndex="5"/> 
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            
          </children>
       </GridPane>
       <Text fill="WHITE" layoutX="179.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already an existing user?" />
       <Button fx:id="loginBtn" layoutX="360.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginBtnHandler" text="Login" textFill="#370ac9" />
-      <Button fx:id="registerBtn" layoutX="351.0" layoutY="207.0" mnemonicParsing="false" onAction="#registerBtnHandler" text="Register" textFill="#370ac9" />
+      <Button fx:id="registerBtn" layoutX="351.0" layoutY="26" mnemonicParsing="false" onAction="#registerBtnHandler" text="Register" textFill="#370ac9" />
    </children>
 </AnchorPane>

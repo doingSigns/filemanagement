@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -45,9 +46,12 @@ public class WelcomeController  {
       
       @FXML
       private TextArea fileContent;
+   
       
       @FXML
       private Button saveBtn;
+      
+      
    
    //   @FXML
    // private MenuItem loginBtn;
@@ -117,7 +121,8 @@ public class WelcomeController  {
         if (file == null){
             return;
         }
-        try{
+        
+           try{
             String shellInput = "docker cp " + file.getAbsolutePath() + " ntu-vm-soft40051:/";
             String[] commandAndArgs = new String[]{"/bin/sh", "-c" , shellInput};
            
@@ -133,6 +138,8 @@ public class WelcomeController  {
     }
     @FXML 
      private void createFileHandler (ActionEvent event){
+         
+        
          
          System.out.println("Got here create file 117");
          
