@@ -28,6 +28,10 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    User(String string, String string0, String string1, String string2, boolean aBoolean) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
   
     
     

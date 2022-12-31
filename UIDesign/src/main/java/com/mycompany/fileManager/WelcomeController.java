@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -30,14 +31,19 @@ import javafx.stage.Stage;
  *
  * @author ntu-user
  */
-public class WelcomeController  {
+public class WelcomeController   {
 
      @FXML
     private Button upload;
-      @FXML
-    private Button view;
-   //   @FXML
-   // private MenuItem loginBtn;
+     
+  //@FXML
+ // private MenuItem login;
+    //@FXML 
+// private Parent login;
+  
+   @FXML
+    private Button back;
+     
 @FXML
     private Text fileText;
 
@@ -47,14 +53,14 @@ public class WelcomeController  {
     }
 
     @FXML
-    void deleteprofile(ActionEvent event) {
+   private void deleteprofile(ActionEvent event) {
 
-    }
+   /* }
 
     @FXML
-    void logout(ActionEvent event) throws IOException {
-   /*     Stage secondaryStage = new Stage();
-        Stage primaryStage= (Stage) loginBtn.getScene().getWindow();
+   private void logout(ActionEvent event) throws IOException {
+       Stage secondaryStage = new Stage();
+       Stage primaryStage = (Stage) login.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("login.fxml"));
@@ -67,40 +73,41 @@ public class WelcomeController  {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-    }*/
-    }
-
-    @FXML
-    void viewBtn(ActionEvent event) {
+        }*/
+   }
+   @FXML
+   private void backBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
-        Stage primaryStage = (Stage) view.getScene().getWindow();
+       Stage primaryStage = (Stage) back.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("files.fxml"));
+            loader.setLocation(getClass().getResource("login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Your Files");
+            secondaryStage.setTitle("Login");
             secondaryStage.show();
             primaryStage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        
+   }
+   }
+  
+    
 
-    }
+  
 
     @FXML
-    void uploadHandler(ActionEvent event) throws IOException {
+  private  void uploadHandler(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) upload.getScene().getWindow();
         primaryStage.setTitle("Select a File");
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        
+        dialogue("Congratulations","Successfully Uploaded a file" );
         if(selectedFile!=null){
             fileText.setText((String)selectedFile.getCanonicalPath());
         }

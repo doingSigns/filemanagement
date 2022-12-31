@@ -28,7 +28,7 @@
         </items>
       </MenuButton>
       <Circle fill="WHITE" layoutX="555.0" layoutY="25.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" />
-      <MenuButton layoutX="239.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="File Name B">
+      <MenuButton fx:id="fileText" layoutX="239.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="File Name B">
         <items>
           <MenuItem mnemonicParsing="false" text="rename" />
           <MenuItem mnemonicParsing="false" text="copy" />
@@ -36,7 +36,7 @@
             <MenuItem mnemonicParsing="false" text="delete" />
         </items>
       </MenuButton>
-      <MenuButton layoutX="49.0" layoutY="143.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="File Name A">
+      <MenuButton fx:id="fileTextA" layoutX="49.0" layoutY="143.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="File Name A">
          <items>
             <MenuItem mnemonicParsing="false" text="delete" />
             <MenuItem mnemonicParsing="false" text="move" />
@@ -64,5 +64,6 @@
       <TextField layoutX="239.0" layoutY="59.0" prefHeight="86.0" prefWidth="155.0" />
       <TextField layoutX="49.0" layoutY="208.0" prefHeight="86.0" prefWidth="155.0" />
       <TextField layoutX="238.0" layoutY="208.0" prefHeight="86.0" prefWidth="155.0" />
+      <Button fx:id="welcome" layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#welcomeBtn" text="Back" />
    </children>
 </AnchorPane>

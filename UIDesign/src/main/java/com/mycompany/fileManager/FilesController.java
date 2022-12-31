@@ -6,21 +6,22 @@ package com.mycompany.fileManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 
 /**
  * FXML Controller class
  *
  * @author ntu-user
  */
-public class FilesController implements Initializable {
+public class FilesController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+   
+    @FXML
+    private MenuButton fileText;
+
+    @FXML
+    private Button welcome;
 }
