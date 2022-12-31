@@ -35,7 +35,7 @@ import javafx.scene.paint.Color;
 public class LoginController {
 
     @FXML
-    private TextField usernameTextField;
+    private TextField userTextField;
 
     @FXML
     private PasswordField passwordTextField;
@@ -48,19 +48,21 @@ public class LoginController {
 
   
    
-       private void dialogue(String headerMsg, String contentMsg) {
+        private void dialogue(String headerMsg, String contentMsg) {
         Stage secondaryStage = new Stage();
         Group root = new Group();
         Scene scene = new Scene(root, 300, 300, Color.DARKGRAY);
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
+        alert.setTitle("Confirmation Dialog");
         alert.setHeaderText(headerMsg);
         alert.setContentText(contentMsg);
+
         Optional<ButtonType> result = alert.showAndWait();
     }
 
     @FXML
-   private void loginBtHandler(ActionEvent event) throws IOException {
+   private void loginBtHandler(ActionEvent event) throws InvalidKeySpecException {
        
  
       Stage secondaryStage = new Stage();
@@ -68,9 +70,9 @@ public class LoginController {
                
                 try {
              DatabaseConnection connect = new DatabaseConnection ();
-             String [] credentials = {usernameTextField.getText(), passwordTextField.getText()};
+           //  String [] credentials = {userTextField.getText(), passwordTextField.getText()};
             
-            if(connect.validateUser(usernameTextField.getText(), passwordTextField.getText())){
+            if(connect.validateUser(userTextField.getText(), passwordTextField.getText())){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("welcome.fxml"));
             Parent root = loader.load();
@@ -85,8 +87,8 @@ public class LoginController {
              }
             
             // Check of the 
-        } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(UserLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) { {
+            
         }
         
        
@@ -116,6 +118,7 @@ public class LoginController {
         }*/
 
     }
+   }
 
     @FXML
     private void registerBtnHandler(ActionEvent event) throws IOException {

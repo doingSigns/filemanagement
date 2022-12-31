@@ -80,7 +80,7 @@ public class DatabaseConnection {
             connection = DriverManager.getConnection(fileName);
             var statement = connection.createStatement();
             statement.setQueryTimeout(timeout);
-            statement.executeUpdate("create table if not exists " + tableName + "(username varchar, passwordHash varchar , isAdmin varchar,firstName varchar , lastName varchar, email varchar)");
+            statement.executeUpdate("create table if not exists " + tableName + "(username varchar, passwordHash varchar , isAdmin varchar, firstName varchar , lastName varchar, email varchar)");
 
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,9 +97,31 @@ public class DatabaseConnection {
     }
 
     /**
+     * @param email
      * @brief delete table
      * @param tableName of type String
      */
+     public void delUser(String tableName, long email ) {
+        try {
+          
+            // create a database connection
+            connection = DriverManager.getConnection(fileName);
+            var statement = connection.createStatement();
+            statement.setQueryTimeout(timeout);
+            statement.executeUpdate("DELETE FROM " + tableName + "WHERE email=" + email);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+     }
     public void delTable(String tableName) {
         try {
             // create a database connection
@@ -169,7 +191,7 @@ public class DatabaseConnection {
             ResultSet rs = statement.executeQuery("select * from " + this.dataBaseTableName);
             while (rs.next()) {
                 // read the result set
-                result.add(rs.getString("username"));
+                 result.add(new User(rs.getString("username"),rs.getString("passwordHash"), rs.getString("firstName"), rs.getString("lastName"), rs.getBoolean("isAdmin")));
             }
             
         } catch (SQLException ex) {
