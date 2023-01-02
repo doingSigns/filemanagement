@@ -127,20 +127,21 @@ public class SignupController  {
                 User user = new User (usernameField.getText(), passwordField.getText(),firstNameField.getText(),lastNameField.getText(),emailField.getText(),false);
                 System.out.println("Got Here");
                 myObj.addDataToDB(user);
-                dialogue("Your Information has been added Successfully", "Please login");
+                dialogue("Your Information has been added Successfully", "Kindly     login");
                
                 String[] credentials = {usernameField.getText(), passwordField.getText()};
             loader.setLocation(getClass().getResource("login.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 640, 480);
                 secondaryStage.setScene(scene);
-                SecondaryController controller = loader.getController();
-                secondaryStage.setTitle("Show users");
-                controller.initialise(credentials);
-                String msg = "some data sent from Register Controller";
-                secondaryStage.setUserData(msg);
+              LoginController controller = loader.getController();
+                secondaryStage.setTitle("Login");
+              // controller.initialise(credentials);
+            String msg = "some data sent from Register Controller";
+            secondaryStage.setUserData(msg);
+            
             } else {
-                loader.setLocation(getClass().getResource("login.fxml"));
+                loader.setLocation(getClass().getResource("signup.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 640, 480);
                 secondaryStage.setScene(scene);
@@ -159,7 +160,8 @@ public class SignupController  {
             System.out.println(ex);
         
 
-        }}
+        }
+   }
 }
 
 

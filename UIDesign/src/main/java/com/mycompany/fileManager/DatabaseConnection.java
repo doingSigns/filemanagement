@@ -157,6 +157,7 @@ public class DatabaseConnection {
     }
 
     /**
+     * @return 
      * @brief get data from the Database method
      * @retunr results as ResultSet
      */
@@ -170,6 +171,8 @@ public class DatabaseConnection {
             while (rs.next()) {
                 // read the result set
                 result.add(rs.getString("username"));
+                result.add(rs.getString("passwordHash"));
+                result.add(rs.getString("email"));
             }
             
         } catch (SQLException ex) {

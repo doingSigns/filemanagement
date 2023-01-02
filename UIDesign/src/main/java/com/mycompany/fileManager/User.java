@@ -48,43 +48,44 @@ public class User {
   
     
     
-public void setUsername(String username) {
-        this.username.set(username);
-    }
+
     public String getUsername() {
         return username.get();
     }
-
+public void setUsername(String username) {
+        this.username.set(username);
+    }
+  public String getPassword() {
+        return password.get();
+    }
       public void setPassword(String password) {
         this.password.set(password);
     }
-    public String getPassword() {
-        return password.get();
+   public String getFirstName(){
+        return firstname.get();
     }
     
     public void setFirstName(String firstname){
         this.firstname.set(firstname);
     }
-    public String getFirstName(){
-        return firstname.get();
+   
+    public String getLastName(){
+        return lastname.get();
     }
-    
     public void setLastName(String lastname){
         this.lastname.set(lastname);
     }
-    public String getLastName(){
-        return lastname.get();
+     public String getEmail(){
+        return email.get();
     }
     public void setEmail(String email){
         this.email.set(email);
     }
-    public String getEmail(){
-        return email.get();
+    public boolean getAdmin (){
+        return isAdmin;
     }
     public void setAdmin(boolean isAdmin){
         this.isAdmin = isAdmin;
     }
-    public boolean getAdmin (){
-        return isAdmin;
-    }
+   
 }

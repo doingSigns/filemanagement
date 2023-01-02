@@ -28,7 +28,7 @@ public class App extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login Details");
+            secondaryStage.setTitle("Login");
             secondaryStage.show();
 
         } catch (IOException e) {

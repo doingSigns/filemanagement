@@ -68,16 +68,20 @@ public class LoginController {
                
                 try {
              DatabaseConnection connect = new DatabaseConnection ();
-            
+            String[] credentials = {usernameTextField.getText(), passwordTextField.getText()};
             if(connect.validateUser(usernameTextField.getText(), passwordTextField.getText())){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("welcome.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login Successful");
-            secondaryStage.show();
-            primaryStage.close();
+            WelcomeController controller = loader.getController();
+                controller.initialise(credentials);
+                secondaryStage.setTitle("Show Users");
+                String msg="some data sent from Primary Controller";
+                secondaryStage.setUserData(msg);
+                secondaryStage.show();
+                primaryStage.close();
                  
              }else {
                  dialogue("Incorrect User Name / Password", "Please try again!");
