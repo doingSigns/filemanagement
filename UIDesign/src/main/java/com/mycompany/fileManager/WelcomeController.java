@@ -12,6 +12,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -105,34 +107,12 @@ private MenuItem login;
     
     }
 
-    @FXML
-    void uploadHandler(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) upload.getScene().getWindow();
-        primaryStage.setTitle("Select a File");
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(primaryStage);
-        
-        if (file == null){
-            return;
-        }
-        
-           try{
-            String shellInput = "docker cp " + file.getAbsolutePath() + " ntu-vm-soft40051:/";
-            String[] commandAndArgs = new String[]{"/bin/sh", "-c" , shellInput};
-           
-           Process process = Runtime.getRuntime().exec(commandAndArgs);
-           process.waitFor();
-        
-           System.out.println("Succesful File Upload");
-                }catch (IOException | InterruptedException e){
-                    e.printStackTrace();
-                    
-                }
-    }
    
-                @FXML
+       
+        
+      
+   
+    @FXML
    private void backBtn(ActionEvent event) throws IOException {
         Stage secondaryStage = new Stage();
         Stage primaryStage= (Stage) back.getScene().getWindow();
@@ -180,6 +160,31 @@ private MenuItem login;
          
          
              }
+     
+     
+    @FXML
+    void uploadHandler(ActionEvent event) throws IOException {
+        Stage primaryStage = (Stage) upload.getScene().getWindow();
+        primaryStage.setTitle("Select a File");
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(primaryStage);
+
+        if (file == null) {
+            return;
+        }
+
+        try {
+
+            SFTPDelegate.copyFile("ade", file, FileServer.CONTAINER_ONE);
+
+            System.out.println("Succesful File Upload");
+        } catch (SftpException | JSchException ex) {
+            Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
    public void initialise(String[] credentials) {
      usernameTextField.setText(credentials[0]);

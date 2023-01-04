@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>UIDesign</artifactId>
@@ -15,26 +15,13 @@
             <artifactId>javafx-controls</artifactId>
             <version>13</version>
         </dependency>
-        
-       <!-- https://mvnrepository.com/artifact/com.spotify/docker-client -->
-<dependency>
-    <groupId>com.spotify</groupId>
-    <artifactId>docker-client</artifactId>
-    <version>8.16.0</version>
-    <type>jar</type>
-</dependency>
-
-        
-   
-     <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
-     <dependency>
-    <groupId>com.jcraft</groupId>
-    <artifactId>jsch</artifactId>
-    <version>0.1.55</version>
-     </dependency>
-
-
-        
+        <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+            <type>jar</type>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -55,9 +42,6 @@
             <artifactId>maven-jar-plugin</artifactId>
             <version>3.3.0</version>
         </dependency>
-       
-        <!-- https://mvnrepository.com/artifact/com.spotify/docker-client -->
-
     </dependencies>
     <build>
         <plugins>
@@ -74,7 +58,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.mycompany.javafxapplication1.App</mainClass>
+                    <mainClass>com.mycompany.fileManager.App</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -106,11 +90,11 @@
                         <id>ide-profile</id>
                         <configuration>
                             <options>
-				<option>${profiler.jvmargs.arg1}</option>
-				<option>${profiler.jvmargs.arg2}</option>
-				<option>${profiler.jvmargs.arg3}</option>
-				<option>${profiler.jvmargs.arg4}</option>
-				<option>${profiler.jvmargs.arg5}</option>
+                                <option>${profiler.jvmargs.arg1}</option>
+                                <option>${profiler.jvmargs.arg2}</option>
+                                <option>${profiler.jvmargs.arg3}</option>
+                                <option>${profiler.jvmargs.arg4}</option>
+                                <option>${profiler.jvmargs.arg5}</option>
                             </options>
                         </configuration>
                     </execution>

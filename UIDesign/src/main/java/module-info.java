@@ -1,4 +1,5 @@
-module com.mycompany.javafxapplication1 {
+module com.mycompany.fileManager
+{
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;

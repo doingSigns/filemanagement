@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import static javafx.application.Application.launch;
 
 /**
  * JavaFX App
@@ -28,7 +29,7 @@ public class App extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login");
+            secondaryStage.setTitle("Login Details");
             secondaryStage.show();
 
         } catch (IOException e) {

@@ -120,7 +120,20 @@ public class DatabaseConnection {
             }
         }
     }
+    
+    public void createFilesTable(String filetable) throws SQLException {
+        try {
+       
+             connection = DriverManager.getConnection(fileName);
+            var statement = connection.createStatement();
+            statement.setQueryTimeout(timeout);
 
+         statement.executeUpdate("create table if not exists " + filetable + "(file_id varchar, filename TEXT , creation_date TIMESTAMP,owner_user_id varchar , shared_user_ids TEXT, file_chunks TEXT, file_description TEXT , file_size SIZE)");
+      
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }}
     /**
      * @throws java.security.spec.InvalidKeySpecException
      * @brief add data to the database method
@@ -157,7 +170,6 @@ public class DatabaseConnection {
     }
 
     /**
-     * @return 
      * @brief get data from the Database method
      * @retunr results as ResultSet
      */
@@ -171,8 +183,6 @@ public class DatabaseConnection {
             while (rs.next()) {
                 // read the result set
                 result.add(rs.getString("username"));
-                result.add(rs.getString("passwordHash"));
-                result.add(rs.getString("email"));
             }
             
         } catch (SQLException ex) {
