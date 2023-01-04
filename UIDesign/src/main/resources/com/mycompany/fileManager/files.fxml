@@ -64,6 +64,5 @@
       <TextField layoutX="239.0" layoutY="59.0" prefHeight="86.0" prefWidth="155.0" />
       <TextField layoutX="49.0" layoutY="208.0" prefHeight="86.0" prefWidth="155.0" />
       <TextField layoutX="238.0" layoutY="208.0" prefHeight="86.0" prefWidth="155.0" />
-      <Button fx:id="back" layoutX="82.0" layoutY="13.0" mnemonicParsing="false" onAction="#backBtn" text="Back" />
    </children>
 </AnchorPane>

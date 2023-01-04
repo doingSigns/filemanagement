@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
-package com.mycompany.fileManager;
+package com.mycompany.fileManager.database;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,17 +11,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import com.mycompany.fileManager.User;
+import com.mycompany.fileManager.model.User;
 
 import java.util.Base64;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -35,23 +31,25 @@ import javax.crypto.spec.PBEKeySpec;
  *
  * @author ntu-user
  */
+@Deprecated
 public class DatabaseConnection {
 
     private String fileName = "jdbc:sqlite:details.db";
     private int timeout = 30;
     private String dataBaseName = "DETAILS";
-    private String dataBaseTableName = "User";
+    private String dataBaseTableName = "users";
     Connection connection = null;
     private Random random = new SecureRandom();
     private String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private int iterations = 10000;
     private int keylength = 256;
     private String saltValue;
-    
+
     /**
-     * @brief constructor - generates the salt if it doesn't exists or load it from the file .salt
+     * @brief constructor - generates the salt if it doesn't exists or load it
+     * from the file .salt
      */
-    DatabaseConnection() {
+    public DatabaseConnection() {
         try {
             File fp = new File(".salt");
             if (!fp.exists()) {
@@ -69,7 +67,7 @@ public class DatabaseConnection {
             System.out.println(e);
         }
     }
-        
+
     /**
      * @brief create a new table
      * @param tableName name of type String
@@ -120,33 +118,21 @@ public class DatabaseConnection {
             }
         }
     }
-    
-    public void createFilesTable(String filetable) throws SQLException {
-        try {
-       
-             connection = DriverManager.getConnection(fileName);
-            var statement = connection.createStatement();
-            statement.setQueryTimeout(timeout);
 
-         statement.executeUpdate("create table if not exists " + filetable + "(file_id varchar, filename TEXT , creation_date TIMESTAMP,owner_user_id varchar , shared_user_ids TEXT, file_chunks TEXT, file_description TEXT , file_size SIZE)");
-      
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-            throw ex;
-        }}
     /**
      * @throws java.security.spec.InvalidKeySpecException
      * @brief add data to the database method
      * @param user name of type String
      * @param password of type String
      */
-        public void addDataToDB(User user) throws InvalidKeySpecException {
+    public void addDataToDB(User user) throws InvalidKeySpecException {
         try {
             connection = DriverManager.getConnection(fileName);
             var statement = connection.createStatement();
             statement.setQueryTimeout(timeout);
 //            System.out.println("Adding User: " + user + ", Password: " + password);
-            statement.executeUpdate("insert into " + dataBaseTableName + " (username, passwordHash,isAdmin,firstName,lastName,email) values('" + user.getUsername() + "','" + generateSecurePassword(user.getPassword()) + "','"+ user.getAdmin()+"','"+user.getFirstName()+"','" +user.getLastName()+"','"+ user.getEmail() + "')");
+            statement.executeUpdate("insert into " + dataBaseTableName + " (username, passwordHash,isAdmin,firstName,lastName,email) values('" + user.getUsername() + "','" + generateSecurePassword(user.getPassword()) + "','" + user.getAdmin() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getEmail() + "')");
+        
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -173,7 +159,7 @@ public class DatabaseConnection {
      * @brief get data from the Database method
      * @retunr results as ResultSet
      */
-     public ObservableList<String> getDataFromTable() {
+    public ObservableList<String> getDataFromTable() {
         ObservableList<String> result = FXCollections.observableArrayList();
         try {
             connection = DriverManager.getConnection(fileName);
@@ -184,7 +170,7 @@ public class DatabaseConnection {
                 // read the result set
                 result.add(rs.getString("username"));
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -215,8 +201,7 @@ public class DatabaseConnection {
             statement.setQueryTimeout(timeout);
             ResultSet rs = statement.executeQuery("select username, passwordHash from " + this.dataBaseTableName);
             String inPass = generateSecurePassword(passwordHash);
-            
-             
+
             // Let's iterate through the java ResultSet
             while (rs.next()) {
                 if (username.equals(rs.getString("username")) && rs.getString("passwordHash").equals(inPass)) {
@@ -320,4 +305,3 @@ public class DatabaseConnection {
 //        }
 //    }
 }
-   

@@ -2,21 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.fileManager;
+package com.mycompany.fileManager.storage;
 
-/**
- *
- * @author ntu-user
- */
 public class FileChunk {
-    
-    private String fileChunkId;
     private String fileId;
     private boolean encrypted;
     private String fileServerId;
 
-    public FileChunk(String fileChunkId, String fileId, boolean encrypted, String fileServerId) {
-        this.fileChunkId = fileChunkId;
+    public FileChunk() {
+    }
+    
+
+    public FileChunk(String fileId, boolean encrypted, String fileServerId) {
         this.fileId = fileId;
         this.encrypted = encrypted;
         this.fileServerId = fileServerId;
@@ -45,14 +42,4 @@ public class FileChunk {
     public void setFileServerId(String fileServerId) {
         this.fileServerId = fileServerId;
     }
-
-    public String getFileChunkId() {
-        return fileChunkId;
-    }
-
-    public void setFileChunkId(String fileChunkId) {
-        this.fileChunkId = fileChunkId;
-    }
 }
-
-

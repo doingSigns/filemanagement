@@ -1,5 +1,6 @@
 package com.mycompany.fileManager;
 
+import com.mycompany.fileManager.database.DatabaseSetup;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import static javafx.application.Application.launch;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * JavaFX App
@@ -15,15 +18,14 @@ import static javafx.application.Application.launch;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
-        Stage secondaryStage = new Stage();
-        DatabaseConnection myObj = new DatabaseConnection();
-        myObj.log("-------- File Manager Course Work ------------");
-        /*myObj.log("\n---------- Drop table ----------");
-        myObj.delTable(myObj.getTableName());
-        myObj.log("\n---------- Create table ----------");
-        myObj.createTable(myObj.getTableName()); */
+    public void start(Stage stage) {
+
         try {
+            DatabaseSetup db = new DatabaseSetup("details.db");
+            db.init();
+
+            Stage secondaryStage = new Stage();
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("login.fxml"));
             Parent root = loader.load();
@@ -32,8 +34,8 @@ public class App extends Application {
             secondaryStage.setTitle("Login Details");
             secondaryStage.show();
 
-        } catch (IOException e) {
-          System.out.println(e); 
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

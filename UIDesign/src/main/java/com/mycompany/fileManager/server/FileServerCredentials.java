@@ -2,16 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.fileManager;
+package com.mycompany.fileManager.server;
 
-public class DockerContainerWithSSH {
+public class FileServerCredentials {
     
     private final String username;
     private final String password;
     private final String host;
     private final int port;
 
-    public DockerContainerWithSSH(String username, String password, String host, int port) {
+    public FileServerCredentials(String username, String password, String host, int port) {
         this.username = username;
         this.password = password;
         this.host = host;
@@ -33,5 +33,4 @@ public class DockerContainerWithSSH {
     public int getPort() {
         return port;
     }
-    
 }

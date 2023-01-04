@@ -1,5 +1,6 @@
 package com.mycompany.fileManager;
 
+import com.mycompany.fileManager.database.DatabaseConnection;
 import java.io.IOException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Optional;

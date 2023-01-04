@@ -2,18 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.fileManager;
-
+package com.mycompany.fileManager.storage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ntu-user
- */
 public class StoredFile {
-    
 
     private String fileId;
     private List<FileChunk> fileChunks = new ArrayList();
@@ -21,6 +15,8 @@ public class StoredFile {
     
     private String ownerUserId;
     private List<String> sharedUserIds = new ArrayList();
+
+    public StoredFile() {}
 
     public StoredFile(String fileId, FileDescription fileDescription, String ownerUserId) {
         this.fileId = fileId;

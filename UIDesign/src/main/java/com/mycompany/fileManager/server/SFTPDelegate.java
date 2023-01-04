@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.fileManager;
+package com.mycompany.fileManager.server;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -17,7 +17,7 @@ public class SFTPDelegate {
 
     private final static JSch jsch = new JSch();
 
-    public static void copyFile(String userId, File file, FileServer fileServer) throws JSchException, SftpException {
+    public static void copyFile(String fileId, File file, FileServer fileServer) throws JSchException, SftpException {
         try {
 
             FileServerCredentials serverCredentials = fileServer.getConfig();
@@ -38,15 +38,15 @@ public class SFTPDelegate {
 
             ChannelSftp sftpChannel = (ChannelSftp) channel;
 
-            sftpChannel.put(file.getAbsolutePath(), "/file-manager-app/");
+            sftpChannel.put(file.getAbsolutePath(), "/usr/" + fileId);
 
             sftpChannel.disconnect();
             sftpChannel.exit();
 
             session.disconnect();
         } catch (JSchException | SftpException ex) {
+            ex.printStackTrace();
             throw ex;
         }
     }
-
 }
