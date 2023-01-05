@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class FileService {
 
     private final List<FileServer> FILE_SERVERS = Arrays.asList(FileServer.CONTAINER_ONE, FileServer.CONTAINER_TWO, FileServer.CONTAINER_THREE, FileServer.CONTAINER_FOUR);
@@ -28,15 +29,14 @@ public class FileService {
 
     public void uploadFile(File file) throws IOException, JSchException, SftpException, SQLException {
 
-        String fileId = FileUtils.getUniqueId();
+       String fileId = FileUtils.getUniqueId();
 
-        // Create new stored file
         StoredFile dbFile = new StoredFile();
-        dbFile.setFileId(fileId);
         dbFile.setOwnerUserId(SecurityContextHolder.context.getUserId());
         dbFile.setFileChunks(new ArrayList());
         dbFile.setSharedUserIds(new ArrayList());
-        dbFile.setFileDescription(new FileDescription(file.getName(), FileUtils.currentTimeStamp(), FileUtils.getFileSizeInKb(file)));
+        dbFile.setFileName(file.getName());
+        dbFile.setFileDescription(new FileDescription(FileUtils.currentTimeStamp(), FileUtils.getFileSizeInKb(file)));
 
         List<File> fileChunks = FileUtils.splitFileIntoChunks(file, NO_OF_FILE_CHUNKS);
 
@@ -47,12 +47,21 @@ public class FileService {
 
             FileChunk fileChunk = new FileChunk();
             fileChunk.setEncrypted(false);
-            fileChunk.setFileId(fileId);
+            fileChunk.setFileId(dbFile.getFileId());
             fileChunk.setFileServerId(destinationFileServer.getServerId());
 
             dbFile.getFileChunks().add(fileChunk);
         }
 
         DatabaseSetup.filesDatabase.saveFile(dbFile);
+    }
+
+    public StoredFile renameFile(StoredFile file, String newFileName) throws SQLException {
+
+        file.setFileName(newFileName);
+        DatabaseSetup.filesDatabase.saveFile(file);
+
+        return file;
+
     }
 }

@@ -31,6 +31,7 @@ public class DatabaseSetup {
 
         usersDatabase = new UsersDatabase();
         usersDatabase.createTable(getConnection());
+        
     }
 
     public static Connection getConnection() throws SQLException {

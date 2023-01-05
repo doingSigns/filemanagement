@@ -1,6 +1,8 @@
 package com.mycompany.fileManager;
 
 import com.mycompany.fileManager.database.DatabaseSetup;
+import com.mycompany.fileManager.server.SFTPDelegate;
+import com.mycompany.fileManager.database.FilesDatabase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +25,7 @@ public class App extends Application {
         try {
             DatabaseSetup db = new DatabaseSetup("details.db");
             db.init();
-
+         
             Stage secondaryStage = new Stage();
 
             FXMLLoader loader = new FXMLLoader();

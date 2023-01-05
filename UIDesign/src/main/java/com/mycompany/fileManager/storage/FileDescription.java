@@ -6,24 +6,14 @@ package com.mycompany.fileManager.storage;
 
 public class FileDescription {
 
-    private String fileName;
     private String created;
     private double fileSizeInKb;
 
-    public FileDescription(String fileName, String created, double fileSizeInKb) {
-        this.fileName = fileName;
+    public FileDescription(String created, double fileSizeInKb) {
         this.created = created;
         this.fileSizeInKb = fileSizeInKb;
     }
     
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
     public String getCreated() {
         return created;
     }

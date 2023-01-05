@@ -49,4 +49,42 @@ public class SFTPDelegate {
             throw ex;
         }
     }
+    
+    public void deleteFile (String fileId, FileServer fileServer) throws JSchException, SftpException {
+         try {
+
+            FileServerCredentials serverCredentials = fileServer.getConfig();
+
+            Properties config = new Properties();
+            config.put("StrictHostKeyChecking", "no");
+
+            Session session;
+
+            session = jsch.getSession(serverCredentials.getUsername(), serverCredentials.getHost(), serverCredentials.getPort());
+            session.setPassword(serverCredentials.getPassword());
+
+            session.setConfig(config);
+            session.connect(10000);
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect(5000);
+
+            ChannelSftp sftpChannel = (ChannelSftp) channel;
+
+            sftpChannel.rm( "/usr/" + fileId);
+          
+            Boolean success = true;
+            if (success){
+                System.out.println("File deleted successfully");
+            }
+            
+            sftpChannel.disconnect();
+            sftpChannel.exit();
+            session.disconnect();
+         }catch(JSchException | SftpException ex) {
+            ex.printStackTrace();
+            throw ex;
+         }
+        
+    }
 }

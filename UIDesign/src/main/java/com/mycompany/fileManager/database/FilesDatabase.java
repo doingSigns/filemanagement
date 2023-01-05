@@ -6,11 +6,15 @@ package com.mycompany.fileManager.database;
 
 import com.google.gson.Gson;
 import com.mycompany.fileManager.database.abstracts.FileOperationsInterface;
+import com.mycompany.fileManager.storage.FileChunk;
+import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,19 +35,19 @@ public class FilesDatabase implements FileOperationsInterface {
 
         String sql = "INSERT OR REPLACE INTO "
                 + DatabaseTableNames.FILES
-                + "(file_id, owner_user_id, shared_user_ids, file_chunks, file_description) "
-                + "VALUES(?,?,?,?,?)";
-        
+                + "(file_id, file_name, owner_user_id, shared_user_ids, file_chunks, file_description) "
+                + "VALUES(?,?,?,?,?,?)";
+
         Gson gson = new Gson();
-        
+
         PreparedStatement pstmt = DatabaseSetup.getConnection().prepareStatement(sql);
         pstmt.setString(1, storedFile.getFileId());
-        pstmt.setString(2, storedFile.getOwnerUserId());
-        pstmt.setString(3, gson.toJson(storedFile.getSharedUserIds()));
-        pstmt.setString(4, gson.toJson(storedFile.getFileChunks()));
-        pstmt.setString(5, gson.toJson(storedFile.getFileDescription()));
+        pstmt.setString(2, storedFile.getFileName());
+        pstmt.setString(3, storedFile.getOwnerUserId());
+        pstmt.setString(4, gson.toJson(storedFile.getSharedUserIds()));
+        pstmt.setString(5, gson.toJson(storedFile.getFileChunks()));
+        pstmt.setString(6, gson.toJson(storedFile.getFileDescription()));
         pstmt.executeUpdate();
-      
 
         return storedFile;
     }
@@ -56,6 +60,7 @@ public class FilesDatabase implements FileOperationsInterface {
                     + " "
                     + "("
                     + "file_id VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,"
+                    + "file_name VARCHAR(200) NOT NULL UNIQUE,"
                     + "owner_user_id VARCHAR(32) NOT NULL,"
                     + "shared_user_ids TEXT,"
                     + "file_chunks TEXT,"
@@ -68,4 +73,28 @@ public class FilesDatabase implements FileOperationsInterface {
             throw ex;
         }
     }
+
+    public StoredFile deleteFile(StoredFile storedFile) throws SQLException {
+        
+        try{
+
+        String sql = "DELETE FROM "
+                + DatabaseTableNames.FILES
+                + " WHERE file_name = (?);";
+        
+        Gson gson = new Gson () ;
+
+        PreparedStatement pstmt = DatabaseSetup.getConnection().prepareStatement(sql);
+        pstmt.setString(1, storedFile.getFileId());
+        
+          pstmt.executeUpdate();
+        
+           return storedFile;
+    }catch (SQLException ex) {
+            Logger.getLogger(FilesDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+    }
+    
+    
 }

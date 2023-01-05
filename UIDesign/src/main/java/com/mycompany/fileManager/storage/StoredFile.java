@@ -10,18 +10,30 @@ import java.util.List;
 public class StoredFile {
 
     private String fileId;
+    private String fileName;
     private List<FileChunk> fileChunks = new ArrayList();
     private FileDescription fileDescription;
-    
+
     private String ownerUserId;
     private List<String> sharedUserIds = new ArrayList();
 
-    public StoredFile() {}
-
-    public StoredFile(String fileId, FileDescription fileDescription, String ownerUserId) {
+    public StoredFile(String fileId, String fileName, FileDescription fileDescription, String ownerUserId) {
         this.fileId = fileId;
+        this.fileName = fileName;
         this.fileDescription = fileDescription;
         this.ownerUserId = ownerUserId;
+    }
+
+    public StoredFile() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getFileId() {
@@ -63,5 +75,5 @@ public class StoredFile {
     public void setSharedUserIds(List<String> sharedUserIds) {
         this.sharedUserIds = sharedUserIds;
     }
-    
+
 }

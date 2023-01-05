@@ -128,7 +128,7 @@ public class WelcomeController {
 
             fs.uploadFile(file);
 
-            System.out.println("Succesful File Upload");
+            System.out.println("Successful File Upload");
         } catch (SftpException ex) {
             Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSchException ex) {
