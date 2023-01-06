@@ -190,9 +190,9 @@ public void delUser(String tableName, String username ) {
             ResultSet rs = statement.executeQuery("select * from " + this.dataBaseTableName);
             while (rs.next()) {
                 // read the result set
-            //      result.add(new User (rs.getString("username"),rs.getString("passwordHash"),
-                 //          rs.getString("firstname"), rs.getString("lastname"), 
-                  //          rs.getString("email"),rs.getBoolean("isAdmin"));
+          //      result.add(new DatabaseSetup.usersDatabase (rs.getString("username"),rs.getString("passwordHash"),
+                     //     rs.getString("firstname"), rs.getString("lastname"), 
+                     //      rs.getString("email"),rs.getBoolean("isAdmin"));
                 result.add(rs.getString("username"));
                         result.add(rs.getString("passwordHash"));
             }

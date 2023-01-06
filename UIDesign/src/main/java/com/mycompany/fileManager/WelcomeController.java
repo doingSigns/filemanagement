@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -46,9 +47,12 @@ import javafx.stage.Stage;
 public class WelcomeController {
 
     private FileService fs = new FileService();
+@FXML
+    private MenuButton Upload;
 
     @FXML
     private Button upload;
+    
      @FXML
     private Button viewfiles;
     @FXML
@@ -80,6 +84,27 @@ public class WelcomeController {
 
     @FXML
     void update(ActionEvent event) {
+       
+    }
+
+    @FXML
+    void delete(ActionEvent event) {
+
+    }
+
+    @FXML
+    void rename(ActionEvent event) {
+
+    }
+
+    @FXML
+    void move(ActionEvent event) {
+
+    }
+
+    @FXML
+    void copy(ActionEvent event) {
+
     }
        @FXML
     void welcomeBtn(ActionEvent event) {

@@ -45,7 +45,5 @@
       <Button fx:id="loginBt" layoutX="338.0" layoutY="208.0" mnemonicParsing="false" onAction="#loginBtHandler" text="Login" />
       <Text fill="WHITE" layoutX="166.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="not an existing user?" />
       <Button fx:id="registerBtn" layoutX="328.0" layoutY="258.0" mnemonicParsing="false" onAction="#registerBtnHandler" text="Register" />
-      <Text fill="WHITE" layoutX="167.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="an admin? login here" />
-      <Button fx:id="admin" layoutX="329.0" layoutY="323.0" mnemonicParsing="false" onAction="#adminBtn" text="Admin" />
    </children>
 </AnchorPane>

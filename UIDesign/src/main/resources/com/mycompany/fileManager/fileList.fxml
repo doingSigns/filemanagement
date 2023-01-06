@@ -26,24 +26,17 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ScrollPane layoutY="248.0" prefHeight="502.0" prefWidth="1114.0">
-         <content>
-            <TreeTableView fx:id="fileTableView" prefHeight="559.0" prefWidth="1099.0">
-              <columns>
-                <TreeTableColumn prefWidth="409.0" text="File Name" />
-                <TreeTableColumn minWidth="0.0" prefWidth="219.0" text="Created" />
-                  <TreeTableColumn minWidth="0.0" prefWidth="308.0" text="Size" />
-                  <TreeTableColumn minWidth="0.0" prefWidth="162.0" text="Actions" />
-              </columns>
-            </TreeTableView>
-         </content>
-      </ScrollPane>
       <Text fill="WHITE" layoutX="278.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Storage">
          <font>
             <Font size="22.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="180.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="121.0" text="My FIles" />
-      <Button layoutX="144.0" layoutY="180.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="121.0" text="Shared" />
+      <TableView fx:id="file" layoutX="118.0" layoutY="245.0" prefHeight="331.0" prefWidth="483.0">
+        <columns>
+          <TableColumn fx:id="fileidColumn" prefWidth="75.0" text="File_id" />
+          <TableColumn fx:id="filenameColumn" prefWidth="75.0" text="Filename" />
+            <TableColumn fx:id="useridColumn" prefWidth="75.0" text="user_id" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
