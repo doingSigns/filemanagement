@@ -5,15 +5,18 @@
 package com.mycompany.fileManager.database;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mycompany.fileManager.database.abstracts.FileOperationsInterface;
 import com.mycompany.fileManager.storage.FileChunk;
 import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
+import com.mycompany.fileManager.utils.PasswordUtil;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +25,42 @@ public class FilesDatabase implements FileOperationsInterface {
 
     @Override
     public List<StoredFile> getUserFiles(String userId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+            List<StoredFile> storedFiles = new ArrayList<>();
+         try {
+             
+          
+
+            ResultSet rs = DatabaseSetup.getConnection().createStatement().executeQuery("select file_id, file_description from " + DatabaseTableNames.FILES);
+            
+           
+
+            while (rs.next()) {
+                //FileName , Container , Time Created , FileSize 
+                
+                String fileId = rs.getString("file_id");
+               
+                String fileDescriptionJson = rs.getString("file_description");
+                System.out.println("Log File Description " + fileDescriptionJson);
+                Gson gson = new Gson ();
+              
+                JsonObject fileDescriptionJsonObject = gson.fromJson(fileDescriptionJson, JsonObject.class);
+                String fileName = fileDescriptionJsonObject.get("fileName").getAsString();
+                String createdAt = fileDescriptionJsonObject.get("created").getAsString();
+                double fileSize = fileDescriptionJsonObject.get("fileSizeInKb").getAsDouble();
+                
+                
+              
+                StoredFile storedfile = new StoredFile (fileId, fileName, new FileDescription(createdAt,fileSize),  userId);
+                storedFiles.add(storedfile);
+                }
+            }
+        catch (SQLException ex) {
+            Logger.getLogger(UsersDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return storedFiles;
     }
+    
 
     @Override
     public List<StoredFile> getUserSharedFiles(String userId) {

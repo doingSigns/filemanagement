@@ -15,6 +15,7 @@ public class DatabaseSetup {
 
     public static FilesDatabase filesDatabase;
     public static UsersDatabase usersDatabase;
+    //public static ErrorsDatabase ErorsContainerUser;
 
     private static Connection connection;
     private static String dbUrl;

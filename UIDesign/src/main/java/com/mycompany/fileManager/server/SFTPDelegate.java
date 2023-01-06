@@ -31,10 +31,10 @@ public class SFTPDelegate {
             session.setPassword(serverCredentials.getPassword());
 
             session.setConfig(config);
-            session.connect(10000);
+            session.connect(100000);
 
             Channel channel = session.openChannel("sftp");
-            channel.connect(5000);
+            channel.connect(50000);
 
             ChannelSftp sftpChannel = (ChannelSftp) channel;
 

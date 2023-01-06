@@ -30,6 +30,7 @@ public class FileService {
     public void uploadFile(File file) throws IOException, JSchException, SftpException, SQLException {
 
        String fileId = FileUtils.getUniqueId();
+       
 
         StoredFile dbFile = new StoredFile();
         dbFile.setOwnerUserId(SecurityContextHolder.context.getUserId());

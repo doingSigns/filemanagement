@@ -70,11 +70,16 @@ public void initialise(String[] credentials) {
         try {
             
             String userId = usernameTextField.getText();
+            String password = passwordTextField.getText();
 
-            if (DatabaseSetup.usersDatabase.authenticateUser(userId, passwordTextField.getText())) {
+            if (DatabaseSetup.usersDatabase.authenticateUser(userId,password)) {
                 
                 SecurityContextHolder.context.setUserId(userId);
+
                  String[] credentials = {usernameTextField.getText(), passwordTextField.getText()};
+
+                SecurityContextHolder.context.setPassword(password);
+
                 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("welcome.fxml"));

@@ -23,11 +23,10 @@ public class StoredFile {
         this.fileDescription = fileDescription;
         this.ownerUserId = ownerUserId;
     }
-
-    public StoredFile() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+   
+      public StoredFile(){
+          throw new UnsupportedOperationException("Not supported.");
+      }
     public String getFileName() {
         return fileName;
     }

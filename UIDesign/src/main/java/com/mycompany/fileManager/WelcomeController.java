@@ -5,11 +5,15 @@
 package com.mycompany.fileManager;
 
 import com.mycompany.fileManager.server.SFTPDelegate;
+import com.mycompany.fileManager.server.FileEncryption;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.mycompany.fileManager.database.FilesDatabase;
 import com.mycompany.fileManager.database.DatabaseConnection;
+import com.mycompany.fileManager.database.DatabaseSetup;
 import com.mycompany.fileManager.server.FileServer;
 import com.mycompany.fileManager.services.FileService;
+import com.mycompany.fileManager.storage.StoredFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -204,17 +208,21 @@ public class WelcomeController {
     void uploadHandler(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) upload.getScene().getWindow();
         primaryStage.setTitle("Select a File");
-
+           
+       
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(primaryStage);
 
         if (file == null) {
+           
             return;
         }
 
         try {
-
+          //   FileEncryption.encrypt(file.getName(),"Adeshile");
+            
+            
             fs.uploadFile(file);
 
             System.out.println("Succesful File Upload");
@@ -223,6 +231,8 @@ public class WelcomeController {
         } catch (JSchException ex) {
             Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -255,16 +265,24 @@ public class WelcomeController {
 public void initialise(String[] credentials) {
         usernameTextField.setText(credentials[0]);
         DatabaseConnection myObj = new DatabaseConnection();
-        ObservableList<String> data = myObj.getDataFromTable();
-        TableColumn user = new TableColumn("Username");
-      user.setCellValueFactory(
-            new PropertyValueFactory<>("username"));
+        ObservableList<StoredFile> data = (ObservableList<StoredFile>) DatabaseSetup.filesDatabase.getUserFiles(credentials[0]);
+        TableColumn fileN = new TableColumn("FileName");
+      fileN.setCellValueFactory(new PropertyValueFactory<>("fileName"));
        
 
-        TableColumn pass = new TableColumn("Password");
-        pass.setCellValueFactory( new PropertyValueFactory("password"));
+        TableColumn timeCreated = new TableColumn("Time Created");
+        timeCreated.setCellValueFactory( new PropertyValueFactory("created"));
+        
+        //TableColumn filecontainer = new TableColumn("Container");
+        //filecontainer.setCellValueFactory( new PropertyValueFactory("Container"));
+        
+        TableColumn fileSize = new TableColumn("File Size");
+        fileSize.setCellValueFactory( new PropertyValueFactory("fileSize"));
+       
+        
+        
         dataTableView.setItems(data);
-        dataTableView.getColumns().addAll(user, pass);
+        dataTableView.getColumns().addAll(fileN, timeCreated,fileSize);
 }
 
 

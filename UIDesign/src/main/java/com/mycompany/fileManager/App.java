@@ -25,7 +25,9 @@ public class App extends Application {
         try {
             DatabaseSetup db = new DatabaseSetup("details.db");
             db.init();
-         
+            
+           
+
             Stage secondaryStage = new Stage();
 
             FXMLLoader loader = new FXMLLoader();

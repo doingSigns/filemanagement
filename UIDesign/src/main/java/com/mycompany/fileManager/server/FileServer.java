@@ -11,10 +11,10 @@ public class FileServer implements FileServerOperations {
     private final static String CONTAINER_THREE_ID = "CONTAINER_THREE_ID";
     private final static String CONTAINER_FOUR_ID = "CONTAINER_FOUR_ID";
 
-    public final static FileServer CONTAINER_ONE = new FileServer(CONTAINER_ONE_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.3", 22));
-    public final static FileServer CONTAINER_TWO = new FileServer(CONTAINER_TWO_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.4", 22));
-    public final static FileServer CONTAINER_THREE = new FileServer(CONTAINER_THREE_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.5", 22));
-    public final static FileServer CONTAINER_FOUR = new FileServer(CONTAINER_FOUR_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.6", 22));
+    public final static FileServer CONTAINER_ONE = new FileServer(CONTAINER_ONE_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.2", 22));
+    public final static FileServer CONTAINER_TWO = new FileServer(CONTAINER_TWO_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.3", 22));
+    public final static FileServer CONTAINER_THREE = new FileServer(CONTAINER_THREE_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.4", 22));
+    public final static FileServer CONTAINER_FOUR = new FileServer(CONTAINER_FOUR_ID, new FileServerCredentials("root", "soft40051_pass", "172.18.0.5", 22));
 
     
     private String serverId;

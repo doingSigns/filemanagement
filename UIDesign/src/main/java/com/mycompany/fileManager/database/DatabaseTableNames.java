@@ -8,5 +8,6 @@ public class DatabaseTableNames {
 
     public final static String FILES = "files";
     public final static String USERS = "users";
+    public final static String ERRORSDATABASE ="ErrorsDatabase";
 
 }
