@@ -37,6 +37,9 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordTextField;
+    
+    @FXML
+    private Button admin;
 
     @FXML
     private Button registerBtn;
@@ -54,7 +57,10 @@ public class LoginController {
         alert.setContentText(contentMsg);
         Optional<ButtonType> result = alert.showAndWait();
     }
+public void initialise(String[] credentials) {
+        usernameTextField.setText(credentials[0]);
 
+}
     @FXML
     private void loginBtHandler(ActionEvent event) throws IOException {
 
@@ -68,12 +74,16 @@ public class LoginController {
             if (DatabaseSetup.usersDatabase.authenticateUser(userId, passwordTextField.getText())) {
                 
                 SecurityContextHolder.context.setUserId(userId);
+                 String[] credentials = {usernameTextField.getText(), passwordTextField.getText()};
                 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("welcome.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 640, 480);
                 secondaryStage.setScene(scene);
+                 WelcomeController controller = loader.getController();
+                    secondaryStage.setTitle("Show users");
+                    controller.initialise(credentials);
                 secondaryStage.setTitle("Login Successful");
                 secondaryStage.show();
                 primaryStage.close();
@@ -105,5 +115,23 @@ public class LoginController {
         } catch (IOException ex) {
             System.out.println(ex);
         }
-    }
+   }
+     @FXML
+    private void adminBtn(ActionEvent event) throws IOException {
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) admin.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("admin.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Admin Page");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+}
 }

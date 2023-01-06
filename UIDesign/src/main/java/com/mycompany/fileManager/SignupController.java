@@ -120,24 +120,25 @@ public class SignupController {
                     dialogue("Adding information to the database", "Successful!");
 
                     String[] credentials = {usernameField.getText(), passwordField.getText()};
-                    loader.setLocation(getClass().getResource("secondary.fxml"));
+                    loader.setLocation(getClass().getResource("login.fxml"));
                     Parent root = loader.load();
                     Scene scene = new Scene(root, 640, 480);
                     secondaryStage.setScene(scene);
-                    SecondaryController controller = loader.getController();
-                    secondaryStage.setTitle("Show users");
+                    LoginController controller = loader.getController();
+                 secondaryStage.setTitle("Show users");
                     controller.initialise(credentials);
                     String msg = "some data sent from Register Controller";
                     secondaryStage.setUserData(msg);
+                    
                 } else {
-                    loader.setLocation(getClass().getResource("register.fxml"));
+                    loader.setLocation(getClass().getResource("signup.fxml"));
                     Parent root = loader.load();
                     Scene scene = new Scene(root, 640, 480);
                     secondaryStage.setScene(scene);
                     secondaryStage.setTitle("Register a new User");
                 }
             } else {
-                throw new RuntimeException("User exists");
+                throw new RuntimeException("User Already Exists");
             }
             secondaryStage.show();
             primaryStage.close();

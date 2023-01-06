@@ -118,13 +118,35 @@ public class DatabaseConnection {
             }
         }
     }
-
+public void delUser(String tableName, String username ) {
+        try {
+          
+            
+            connection = DriverManager.getConnection(fileName);
+            var statement = connection.createStatement();
+            statement.setQueryTimeout(timeout);
+            statement.executeUpdate("DELETE FROM " + tableName + "WHERE username=" + username);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+               
+                System.err.println(e.getMessage());
+       
+}
     /**
      * @throws java.security.spec.InvalidKeySpecException
      * @brief add data to the database method
      * @param user name of type String
      * @param password of type String
-     */
+     *      */
+        }
+}
+
     public void addDataToDB(User user) throws InvalidKeySpecException {
         try {
             connection = DriverManager.getConnection(fileName);
@@ -168,7 +190,11 @@ public class DatabaseConnection {
             ResultSet rs = statement.executeQuery("select * from " + this.dataBaseTableName);
             while (rs.next()) {
                 // read the result set
+            //      result.add(new User (rs.getString("username"),rs.getString("passwordHash"),
+                 //          rs.getString("firstname"), rs.getString("lastname"), 
+                  //          rs.getString("email"),rs.getBoolean("isAdmin"));
                 result.add(rs.getString("username"));
+                        result.add(rs.getString("passwordHash"));
             }
 
         } catch (SQLException ex) {

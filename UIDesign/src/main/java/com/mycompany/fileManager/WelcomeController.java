@@ -7,6 +7,7 @@ package com.mycompany.fileManager;
 import com.mycompany.fileManager.server.SFTPDelegate;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.mycompany.fileManager.database.DatabaseConnection;
 import com.mycompany.fileManager.server.FileServer;
 import com.mycompany.fileManager.services.FileService;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +28,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -43,11 +49,22 @@ public class WelcomeController {
 
     @FXML
     private Button upload;
+     @FXML
+    private Button viewfiles;
     @FXML
-    private Button view;
+    private Button back;
+@FXML
+    private Button delete;
 
+@FXML
+    private Button welcome;
+
+@FXML
+    private Button logout;
     @FXML
     private Button createFile;
+@FXML
+    private TextField usernameTextField;
 
     @FXML
     private TextArea fileContent;
@@ -55,53 +72,100 @@ public class WelcomeController {
     @FXML
     private Button saveBtn;
 
-    //   @FXML
-    // private MenuItem loginBtn;
+   @FXML
+    private TableView dataTableView;
+   
     @FXML
     private Text fileText;
 
     @FXML
     void update(ActionEvent event) {
-
     }
-
-    @FXML
-    void deleteprofile(ActionEvent event) {
-
-    }
-
-    @FXML
-    void logout(ActionEvent event) throws IOException {
-        /* Stage secondaryStage = new Stage();
-        Stage primaryStage= (Stage) loginBtn.getScene().getWindow();
+       @FXML
+    void welcomeBtn(ActionEvent event) {
+       Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) welcome.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("login.fxml"));
+            loader.setLocation(getClass().getResource("welcome.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Login");
+            secondaryStage.setTitle("Welcome ");
             secondaryStage.show();
             primaryStage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }*/
     }
+    
 
     @FXML
-    void viewBtn(ActionEvent event) {
+    void logoutBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
-        Stage primaryStage = (Stage) view.getScene().getWindow();
+        Stage primaryStage = (Stage) back.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("files.fxml"));
+            loader.setLocation(getClass().getResource("login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root, 640, 480);
             secondaryStage.setScene(scene);
-            secondaryStage.setTitle("Your Files");
+            secondaryStage.setTitle("Kindly login");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }  
+    @FXML
+    void viewfilesBtn(ActionEvent event) {
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) viewfiles.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("fileList.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Your files");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+    }
+
+    }
+
+    @FXML
+    void deleteuserBtn(ActionEvent event)   {
+         Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) delete.getScene().getWindow();
+        
+     //   try{
+       
+      //    if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())){
+      //         DatabaseConnection delUser(String tableName, String username );
+        
+      //   } catch (Exception e) {
+       //     e.printStackTrace();
+        }
+        
+       
+    
+    @FXML
+    void backBtn(ActionEvent event) {
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) back.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Kindly login");
             secondaryStage.show();
             primaryStage.close();
 
@@ -128,7 +192,7 @@ public class WelcomeController {
 
             fs.uploadFile(file);
 
-            System.out.println("Successful File Upload");
+            System.out.println("Succesful File Upload");
         } catch (SftpException ex) {
             Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSchException ex) {
@@ -162,6 +226,22 @@ public class WelcomeController {
         }
 
     }
+    
+public void initialise(String[] credentials) {
+        usernameTextField.setText(credentials[0]);
+        DatabaseConnection myObj = new DatabaseConnection();
+        ObservableList<String> data = myObj.getDataFromTable();
+        TableColumn user = new TableColumn("Username");
+      user.setCellValueFactory(
+            new PropertyValueFactory<>("username"));
+       
+
+        TableColumn pass = new TableColumn("Password");
+        pass.setCellValueFactory( new PropertyValueFactory("password"));
+        dataTableView.setItems(data);
+        dataTableView.getColumns().addAll(user, pass);
+}
+
 
     @FXML
     private void saveBtnHandler(ActionEvent event) {
@@ -178,9 +258,12 @@ public class WelcomeController {
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             dialogue("File Saved Successfully", "File Created Successfully");
         } catch (IOException e) {
-            System.out.println("An error occured.");
+            System.out.println("An error occured.");{
+               
+       
+}
+     
         }
-
     }
 
     private void dialogue(String headerMsg, String contentMsg) {
@@ -194,4 +277,15 @@ public class WelcomeController {
         Optional<ButtonType> result = alert.showAndWait();
     }
 
+    private void errorDialogue(String headerMsg, String contentMsg) {
+        Stage secondaryStage = new Stage();
+        Group root = new Group();
+        Scene scene = new Scene(root, 300, 300, Color.DARKGRAY);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(headerMsg);
+        alert.setContentText(contentMsg);
+        Optional<ButtonType> result = alert.showAndWait();
+
+    }
 }
