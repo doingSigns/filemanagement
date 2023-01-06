@@ -5,7 +5,7 @@
 package com.mycompany.fileManager;
 
 import com.mycompany.fileManager.server.SFTPDelegate;
-import com.mycompany.fileManager.server.FileEncryption;
+
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.mycompany.fileManager.database.FilesDatabase;
@@ -241,12 +241,13 @@ public class WelcomeController {
     @FXML
     private void createFileHandler(ActionEvent event) {
 
-        System.out.println("Got here create file 117");
+       
 
         Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) createFile.getScene().getWindow();
 
         try {
+            
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("textEditor.fxml"));
             Parent root = loader.load();
@@ -265,13 +266,14 @@ public class WelcomeController {
 public void initialise(String[] credentials) {
         usernameTextField.setText(credentials[0]);
         DatabaseConnection myObj = new DatabaseConnection();
-        ObservableList<StoredFile> data = (ObservableList<StoredFile>) DatabaseSetup.filesDatabase.getUserFiles(credentials[0]);
+        ObservableList<StoredFile> data = DatabaseSetup.filesDatabase.getUserFiles(credentials[0]);
+        
         TableColumn fileN = new TableColumn("FileName");
       fileN.setCellValueFactory(new PropertyValueFactory<>("fileName"));
        
 
-        TableColumn timeCreated = new TableColumn("Time Created");
-        timeCreated.setCellValueFactory( new PropertyValueFactory("created"));
+        TableColumn<StoredFile,String> timeCreated = new TableColumn("Time Created");
+        timeCreated.setCellValueFactory(new PropertyValueFactory("createdAt"));
         
         //TableColumn filecontainer = new TableColumn("Container");
         //filecontainer.setCellValueFactory( new PropertyValueFactory("Container"));
@@ -290,7 +292,7 @@ public void initialise(String[] credentials) {
     private void saveBtnHandler(ActionEvent event) {
 
         try {
-
+                
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
             if (file == null) {
@@ -299,6 +301,8 @@ public void initialise(String[] credentials) {
 
             String content = fileContent.getText();
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            
+            
             dialogue("File Saved Successfully", "File Created Successfully");
         } catch (IOException e) {
             System.out.println("An error occured.");{

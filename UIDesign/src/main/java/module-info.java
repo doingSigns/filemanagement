@@ -1,4 +1,4 @@
- module com.mycompany.fileManager
+  module com.mycompany.fileManager
 {
     requires javafx.controls;
     requires javafx.fxml;

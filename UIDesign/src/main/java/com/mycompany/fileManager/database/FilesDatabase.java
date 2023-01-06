@@ -20,42 +20,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FilesDatabase implements FileOperationsInterface {
 
     @Override
-    public List<StoredFile> getUserFiles(String userId) {
+    public ObservableList<StoredFile> getUserFiles(String userId) {
         
-            List<StoredFile> storedFiles = new ArrayList<>();
-         try {
-             
-          
-
-            ResultSet rs = DatabaseSetup.getConnection().createStatement().executeQuery("select file_id, file_description from " + DatabaseTableNames.FILES);
+            ObservableList<StoredFile> storedFiles = FXCollections.observableArrayList();
             
-           
-
-            while (rs.next()) {
-                //FileName , Container , Time Created , FileSize 
+            String query = "SELECT file_id,file_description FROM " + DatabaseTableNames.FILES + " WHERE owner_user_id = ?";
+            
+         try(Connection con = DatabaseSetup.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+             
+             st.setString(1, userId);
+               try (ResultSet rs = st.executeQuery()) {
+                  
+                   
+                    while (rs.next()) {
                 
                 String fileId = rs.getString("file_id");
-               
                 String fileDescriptionJson = rs.getString("file_description");
                 System.out.println("Log File Description " + fileDescriptionJson);
                 Gson gson = new Gson ();
-              
                 JsonObject fileDescriptionJsonObject = gson.fromJson(fileDescriptionJson, JsonObject.class);
                 String fileName = fileDescriptionJsonObject.get("fileName").getAsString();
                 String createdAt = fileDescriptionJsonObject.get("created").getAsString();
                 double fileSize = fileDescriptionJsonObject.get("fileSizeInKb").getAsDouble();
-                
-                
-              
                 StoredFile storedfile = new StoredFile (fileId, fileName, new FileDescription(createdAt,fileSize),  userId);
                 storedFiles.add(storedfile);
-                }
-            }
-        catch (SQLException ex) {
+                    }
+               }
+                    }catch (SQLException ex) {
             Logger.getLogger(UsersDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return storedFiles;

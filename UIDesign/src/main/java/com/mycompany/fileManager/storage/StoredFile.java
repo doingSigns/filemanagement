@@ -13,6 +13,9 @@ public class StoredFile {
     private String fileName;
     private List<FileChunk> fileChunks = new ArrayList();
     private FileDescription fileDescription;
+    private String createdAt;
+    private double fileSize;
+    
 
     private String ownerUserId;
     private List<String> sharedUserIds = new ArrayList();
@@ -22,10 +25,12 @@ public class StoredFile {
         this.fileName = fileName;
         this.fileDescription = fileDescription;
         this.ownerUserId = ownerUserId;
+        this.createdAt = fileDescription.getCreated();
+        this.fileSize = fileDescription.getFileSizeInKb();
     }
    
       public StoredFile(){
-          throw new UnsupportedOperationException("Not supported.");
+        //  throw new UnsupportedOperationException("Not supported.");
       }
     public String getFileName() {
         return fileName;
@@ -74,5 +79,23 @@ public class StoredFile {
     public void setSharedUserIds(List<String> sharedUserIds) {
         this.sharedUserIds = sharedUserIds;
     }
-
+    
+    public String getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt (String createdAt){
+        this.createdAt = createdAt;
+        
+    }
+    
+    public double getFileSize (){
+        return fileSize;
+    }
+    public void setFileSize(double fileSize){
+        this.fileSize = fileSize;
+        
+    }
 }
+
+
+
