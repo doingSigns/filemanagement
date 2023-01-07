@@ -13,6 +13,7 @@ import com.mycompany.fileManager.database.DatabaseConnection;
 import com.mycompany.fileManager.database.DatabaseSetup;
 import com.mycompany.fileManager.server.FileServer;
 import com.mycompany.fileManager.services.FileService;
+import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
 import java.io.File;
 import java.io.IOException;
@@ -214,16 +215,10 @@ public class WelcomeController {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(primaryStage);
 
-        if (file == null) {
-           
-            return;
-        }
 
         try {
           //   FileEncryption.encrypt(file.getName(),"Adeshile");
-            
-            
-            fs.uploadFile(file);
+                     fs.uploadFile(file);
 
             System.out.println("Succesful File Upload");
         } catch (SftpException ex) {
@@ -275,8 +270,8 @@ public void initialise(String[] credentials) {
         TableColumn<StoredFile,String> timeCreated = new TableColumn("Time Created");
         timeCreated.setCellValueFactory(new PropertyValueFactory("createdAt"));
         
-        //TableColumn filecontainer = new TableColumn("Container");
-        //filecontainer.setCellValueFactory( new PropertyValueFactory("Container"));
+        // TableColumn filecontainer = new TableColumn("Container");
+        // filecontainer.setCellValueFactory( new PropertyValueFactory("Container"));
         
         TableColumn fileSize = new TableColumn("File Size");
         fileSize.setCellValueFactory( new PropertyValueFactory("fileSize"));
@@ -292,7 +287,7 @@ public void initialise(String[] credentials) {
     private void saveBtnHandler(ActionEvent event) {
 
         try {
-                
+            
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
             if (file == null) {
@@ -301,7 +296,7 @@ public void initialise(String[] credentials) {
 
             String content = fileContent.getText();
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            
+           
             
             dialogue("File Saved Successfully", "File Created Successfully");
         } catch (IOException e) {

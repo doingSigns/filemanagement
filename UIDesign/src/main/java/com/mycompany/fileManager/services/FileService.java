@@ -35,6 +35,7 @@ public class FileService {
         StoredFile dbFile = new StoredFile();
         dbFile.setOwnerUserId(SecurityContextHolder.context.getUserId());
         dbFile.setFileChunks(new ArrayList());
+        dbFile.setFileId(fileId);
         dbFile.setSharedUserIds(new ArrayList());
         dbFile.setFileName(file.getName());
         dbFile.setFileDescription(new FileDescription(FileUtils.currentTimeStamp(), FileUtils.getFileSizeInKb(file)));
