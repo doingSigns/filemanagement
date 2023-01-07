@@ -8,12 +8,15 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import com.mycompany.fileManager.database.DatabaseConnection;
 import com.mycompany.fileManager.database.DatabaseSetup;
+import com.mycompany.fileManager.model.User;
+import com.mycompany.fileManager.security.SecurityContextHolder;
 import com.mycompany.fileManager.services.FileService;
 import com.mycompany.fileManager.storage.StoredFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -47,6 +51,22 @@ import javafx.stage.Stage;
 public class WelcomeController {
 
     private FileService fs = new FileService();
+    
+     @FXML
+    private TextField usernameField;
+
+
+    @FXML
+    private TextField lastNameField;
+
+    @FXML
+    private TextField emailField;
+
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private PasswordField passwordField;
+    
     @FXML
     private MenuButton Upload;
 
@@ -72,7 +92,8 @@ public class WelcomeController {
 
     @FXML
     private TextArea fileContent;
-
+     @FXML
+    private Button updateuser;
     @FXML
     private Button saveBtn;
 
@@ -106,6 +127,25 @@ public class WelcomeController {
     void copy(ActionEvent event) {
 
     }
+    @FXML
+    void updateuserBtn (ActionEvent event) throws InvalidKeySpecException {
+        System.out.println("Got Here 117");
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) updateuser.getScene().getWindow();
+       try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("updateuser.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Kindly Update Your Deatails ");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+                }
+    }
 
     @FXML
     void welcomeBtn(ActionEvent event) {
@@ -129,7 +169,7 @@ public class WelcomeController {
     @FXML
     void logoutBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
-        Stage primaryStage = (Stage) back.getScene().getWindow();
+        Stage primaryStage = (Stage) logout.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("login.fxml"));
@@ -166,16 +206,35 @@ public class WelcomeController {
     }
 
     @FXML
-    void deleteuserBtn(ActionEvent event) {
-        Stage secondaryStage = new Stage();
+    void deleteuserBtn(ActionEvent event) throws InvalidKeySpecException, SQLException, IOException   {
+         Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) delete.getScene().getWindow();
+        System.out.println("got it");
+        
+       FXMLLoader loader = new FXMLLoader();
+             if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())) {
+                
+               
 
-        //   try{
-        //    if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())){
-        //         DatabaseConnection delUser(String tableName, String username );
-        //   } catch (Exception e) {
-        //     e.printStackTrace();
+                    User user = new User(usernameTextField.getText().trim(), passwordField.getText().trim(), firstNameField.getText(), lastNameField.getText(), emailField.getText(), false);
+
+                    DatabaseSetup.usersDatabase.delUser(user);
+           
+           dialogue("This User has been deleted", "");
+           loader.setLocation(getClass().getResource("signup.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root, 640, 480);
+                    secondaryStage.setScene(scene);
+                    SignupController controller = loader.getController();
+                 secondaryStage.setTitle("Show users");
+              //     controller.initialise(credentials);
+                    String msg = "some data sent from Register Controller";
+                    secondaryStage.setUserData(msg);
+  
+        }
     }
+
+    
 
     @FXML
     void backBtn(ActionEvent event) {
@@ -258,9 +317,12 @@ public class WelcomeController {
 
         TableColumn<StoredFile, String> fileSize = new TableColumn<>("File Size");
         fileSize.setCellValueFactory(sf -> new SimpleStringProperty(String.valueOf(sf.getValue().getFileDescription().getFileSizeInKb())));
+        
+        TableColumn<StoredFile, String> sharefile = new TableColumn<>("Share File");
+        sharefile.setCellValueFactory(sf -> new SimpleStringProperty(String.valueOf(sf.getValue().getFileDescription().getFileSizeInKb())));
 
         dataTableView.setItems(data);
-        dataTableView.getColumns().addAll(fileN, timeCreated, fileSize);
+        dataTableView.getColumns().addAll(fileN, timeCreated, fileSize, sharefile);
     }
 
     @FXML

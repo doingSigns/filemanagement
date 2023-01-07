@@ -63,6 +63,9 @@ public class UsersDatabase {
         DatabaseSetup.getConnection().createStatement().executeUpdate("insert into " + DatabaseTableNames.USERS + " (username, passwordHash,isAdmin,firstName,lastName,email) values('" + user.getUsername() + "','" + PasswordUtil.generateSecurePassword(user.getPassword()) + "','" + user.getAdmin() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getEmail() + "')");
     }
     
+    public void delUser(User user) throws InvalidKeySpecException, SQLException {
+        DatabaseSetup.getConnection().createStatement().executeUpdate("delete from " + DatabaseTableNames.USERS + " (username, passwordHash,isAdmin,firstName,lastName,email) values('" + user.getUsername() + "','" + PasswordUtil.generateSecurePassword(user.getPassword()) + "','" + user.getAdmin() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getEmail() + "')");
+    }
     public boolean userExists(String username) {
         Boolean flag = false;
         try {
