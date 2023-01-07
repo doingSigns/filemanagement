@@ -4,16 +4,11 @@
  */
 package com.mycompany.fileManager;
 
-import com.mycompany.fileManager.server.SFTPDelegate;
-
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.mycompany.fileManager.database.FilesDatabase;
 import com.mycompany.fileManager.database.DatabaseConnection;
 import com.mycompany.fileManager.database.DatabaseSetup;
-import com.mycompany.fileManager.server.FileServer;
 import com.mycompany.fileManager.services.FileService;
-import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +18,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +34,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -52,27 +47,27 @@ import javafx.stage.Stage;
 public class WelcomeController {
 
     private FileService fs = new FileService();
-@FXML
+    @FXML
     private MenuButton Upload;
 
     @FXML
     private Button upload;
-    
-     @FXML
+
+    @FXML
     private Button viewfiles;
     @FXML
     private Button back;
-@FXML
+    @FXML
     private Button delete;
 
-@FXML
+    @FXML
     private Button welcome;
 
-@FXML
+    @FXML
     private Button logout;
     @FXML
     private Button createFile;
-@FXML
+    @FXML
     private TextField usernameTextField;
 
     @FXML
@@ -81,15 +76,15 @@ public class WelcomeController {
     @FXML
     private Button saveBtn;
 
-   @FXML
+    @FXML
     private TableView dataTableView;
-   
+
     @FXML
     private Text fileText;
 
     @FXML
     void update(ActionEvent event) {
-       
+
     }
 
     @FXML
@@ -111,9 +106,10 @@ public class WelcomeController {
     void copy(ActionEvent event) {
 
     }
-       @FXML
+
+    @FXML
     void welcomeBtn(ActionEvent event) {
-       Stage secondaryStage = new Stage();
+        Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) welcome.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -129,7 +125,6 @@ public class WelcomeController {
             e.printStackTrace();
         }
     }
-    
 
     @FXML
     void logoutBtn(ActionEvent event) {
@@ -148,7 +143,8 @@ public class WelcomeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }  
+    }
+
     @FXML
     void viewfilesBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
@@ -165,26 +161,22 @@ public class WelcomeController {
 
         } catch (Exception e) {
             e.printStackTrace();
-    }
+        }
 
     }
 
     @FXML
-    void deleteuserBtn(ActionEvent event)   {
-         Stage secondaryStage = new Stage();
+    void deleteuserBtn(ActionEvent event) {
+        Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) delete.getScene().getWindow();
-        
-     //   try{
-       
-      //    if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())){
-      //         DatabaseConnection delUser(String tableName, String username );
-        
-      //   } catch (Exception e) {
-       //     e.printStackTrace();
-        }
-        
-       
-    
+
+        //   try{
+        //    if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())){
+        //         DatabaseConnection delUser(String tableName, String username );
+        //   } catch (Exception e) {
+        //     e.printStackTrace();
+    }
+
     @FXML
     void backBtn(ActionEvent event) {
         Stage secondaryStage = new Stage();
@@ -209,16 +201,14 @@ public class WelcomeController {
     void uploadHandler(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) upload.getScene().getWindow();
         primaryStage.setTitle("Select a File");
-           
-       
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(primaryStage);
 
-
         try {
-          //   FileEncryption.encrypt(file.getName(),"Adeshile");
-                     fs.uploadFile(file);
+            //   FileEncryption.encrypt(file.getName(),"Adeshile");
+            fs.uploadFile(file);
 
             System.out.println("Succesful File Upload");
         } catch (SftpException ex) {
@@ -236,13 +226,11 @@ public class WelcomeController {
     @FXML
     private void createFileHandler(ActionEvent event) {
 
-       
-
         Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) createFile.getScene().getWindow();
 
         try {
-            
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("textEditor.fxml"));
             Parent root = loader.load();
@@ -257,37 +245,29 @@ public class WelcomeController {
         }
 
     }
-    
-public void initialise(String[] credentials) {
+
+    public void initialise(String[] credentials) {
         usernameTextField.setText(credentials[0]);
-        DatabaseConnection myObj = new DatabaseConnection();
         ObservableList<StoredFile> data = DatabaseSetup.filesDatabase.getUserFiles(credentials[0]);
-        
-        TableColumn fileN = new TableColumn("FileName");
-      fileN.setCellValueFactory(new PropertyValueFactory<>("fileName"));
-       
 
-        TableColumn<StoredFile,String> timeCreated = new TableColumn("Time Created");
-        timeCreated.setCellValueFactory(new PropertyValueFactory("createdAt"));
-        
-        // TableColumn filecontainer = new TableColumn("Container");
-        // filecontainer.setCellValueFactory( new PropertyValueFactory("Container"));
-        
-        TableColumn fileSize = new TableColumn("File Size");
-        fileSize.setCellValueFactory( new PropertyValueFactory("fileSize"));
-       
-        
-        
+        TableColumn<StoredFile, String> fileN = new TableColumn("FileName");
+        fileN.setCellValueFactory(sf -> new SimpleStringProperty(sf.getValue().getFileName()));
+
+        TableColumn<StoredFile, String> timeCreated = new TableColumn<>("Time Created");
+        timeCreated.setCellValueFactory(i -> new SimpleStringProperty(i.getValue().getFileDescription().getCreated()));
+
+        TableColumn<StoredFile, String> fileSize = new TableColumn<>("File Size");
+        fileSize.setCellValueFactory(sf -> new SimpleStringProperty(String.valueOf(sf.getValue().getFileDescription().getFileSizeInKb())));
+
         dataTableView.setItems(data);
-        dataTableView.getColumns().addAll(fileN, timeCreated,fileSize);
-}
-
+        dataTableView.getColumns().addAll(fileN, timeCreated, fileSize);
+    }
 
     @FXML
     private void saveBtnHandler(ActionEvent event) {
 
         try {
-            
+
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
             if (file == null) {
@@ -296,15 +276,14 @@ public void initialise(String[] credentials) {
 
             String content = fileContent.getText();
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-           
-            
+
             dialogue("File Saved Successfully", "File Created Successfully");
         } catch (IOException e) {
-            System.out.println("An error occured.");{
-               
-       
-}
-     
+            System.out.println("An error occured.");
+            {
+
+            }
+
         }
     }
 

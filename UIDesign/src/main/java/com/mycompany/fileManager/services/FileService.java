@@ -31,7 +31,6 @@ public class FileService {
 
        String fileId = FileUtils.getUniqueId();
        
-
         StoredFile dbFile = new StoredFile();
         dbFile.setOwnerUserId(SecurityContextHolder.context.getUserId());
         dbFile.setFileChunks(new ArrayList());

@@ -12,7 +12,6 @@ public class FileChunk {
     public FileChunk() {
     }
     
-
     public FileChunk(String fileId, boolean encrypted, String fileServerId) {
         this.fileId = fileId;
         this.encrypted = encrypted;

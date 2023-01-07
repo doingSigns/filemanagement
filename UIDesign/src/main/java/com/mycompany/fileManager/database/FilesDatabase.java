@@ -5,12 +5,10 @@
 package com.mycompany.fileManager.database;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.mycompany.fileManager.database.abstracts.FileOperationsInterface;
 import com.mycompany.fileManager.storage.FileChunk;
 import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
-import com.mycompany.fileManager.utils.PasswordUtil;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,38 +25,32 @@ public class FilesDatabase implements FileOperationsInterface {
 
     @Override
     public ObservableList<StoredFile> getUserFiles(String userId) {
-        
-            ObservableList<StoredFile> storedFiles = FXCollections.observableArrayList();
-            
-            String query = "SELECT file_id,file_description FROM " + DatabaseTableNames.FILES + " WHERE owner_user_id = ?";
-            
-         try(Connection con = DatabaseSetup.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
-             
-             st.setString(1, userId);
-               try (ResultSet rs = st.executeQuery()) {
-                  
-                   
-                    while (rs.next()) {
-                
-                String fileId = rs.getString("file_id");
-                String fileDescriptionJson = rs.getString("file_description");
-                System.out.println("Log File Description " + fileDescriptionJson);
-                Gson gson = new Gson ();
-                JsonObject fileDescriptionJsonObject = gson.fromJson(fileDescriptionJson, JsonObject.class);
-                String fileName = fileDescriptionJsonObject.get("fileName").getAsString();
-                String createdAt = fileDescriptionJsonObject.get("created").getAsString();
-                double fileSize = fileDescriptionJsonObject.get("fileSizeInKb").getAsDouble();
-                StoredFile storedfile = new StoredFile (fileId, fileName, new FileDescription(createdAt,fileSize),  userId);
-                storedFiles.add(storedfile);
-                    }
-               }
-                    }catch (SQLException ex) {
+
+        ObservableList<StoredFile> storedFiles = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM " + DatabaseTableNames.FILES + " WHERE owner_user_id = (?)";
+
+        try (Connection con = DatabaseSetup.getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
+
+            preparedStatement.setString(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    Gson gson = new Gson();
+                    String fileId = resultSet.getString("file_id");
+                    String fileName = resultSet.getString("file_name");
+                    String ownerUserId = resultSet.getString("owner_user_id");
+                    List<String> sharedUserIds = gson.fromJson(resultSet.getString("shared_user_ids"), ArrayList.class);
+                    List<FileChunk> fileChunks = gson.fromJson(resultSet.getString("file_chunks"), ArrayList.class);
+                    FileDescription fileDescription = gson.fromJson(resultSet.getString("file_description"), FileDescription.class);
+                    storedFiles.add(new StoredFile(fileId, fileName, fileChunks, fileDescription, ownerUserId, sharedUserIds));
+                }
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(UsersDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return storedFiles;
     }
-    
 
     @Override
     public List<StoredFile> getUserSharedFiles(String userId) {
@@ -110,26 +102,23 @@ public class FilesDatabase implements FileOperationsInterface {
     }
 
     public StoredFile deleteFile(StoredFile storedFile) throws SQLException {
-        
-        try{
 
-        String sql = "DELETE FROM "
-                + DatabaseTableNames.FILES
-                + " WHERE file_name = (?);";
-        
-        Gson gson = new Gson () ;
+        try {
 
-        PreparedStatement pstmt = DatabaseSetup.getConnection().prepareStatement(sql);
-        pstmt.setString(1, storedFile.getFileId());
-        
-          pstmt.executeUpdate();
-        
-           return storedFile;
-    }catch (SQLException ex) {
+            String sql = "DELETE FROM "
+                    + DatabaseTableNames.FILES
+                    + " WHERE file_name = (?);";
+
+            PreparedStatement pstmt = DatabaseSetup.getConnection().prepareStatement(sql);
+            pstmt.setString(1, storedFile.getFileId());
+
+            pstmt.executeUpdate();
+
+            return storedFile;
+        } catch (SQLException ex) {
             Logger.getLogger(FilesDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
-    
-    
+
 }

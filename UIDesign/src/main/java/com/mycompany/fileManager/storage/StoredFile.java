@@ -4,34 +4,30 @@
  */
 package com.mycompany.fileManager.storage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoredFile {
 
     private String fileId;
     private String fileName;
-    private List<FileChunk> fileChunks = new ArrayList();
+    private List<FileChunk> fileChunks;
     private FileDescription fileDescription;
-    private String createdAt;
-    private double fileSize;
-    
 
     private String ownerUserId;
-    private List<String> sharedUserIds = new ArrayList();
+    private List<String> sharedUserIds;
 
-    public StoredFile(String fileId, String fileName, FileDescription fileDescription, String ownerUserId) {
+    public StoredFile(String fileId, String fileName, List<FileChunk> fileChunks, FileDescription fileDescription, String ownerUserId, List<String> sharedUserIds) {
         this.fileId = fileId;
         this.fileName = fileName;
+        this.fileChunks = fileChunks;
         this.fileDescription = fileDescription;
         this.ownerUserId = ownerUserId;
-        this.createdAt = fileDescription.getCreated();
-        this.fileSize = fileDescription.getFileSizeInKb();
+        this.sharedUserIds = sharedUserIds;
     }
-   
-      public StoredFile(){
-        //  throw new UnsupportedOperationException("Not supported.");
-      }
+    
+    public StoredFile() {
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -79,23 +75,4 @@ public class StoredFile {
     public void setSharedUserIds(List<String> sharedUserIds) {
         this.sharedUserIds = sharedUserIds;
     }
-    
-    public String getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt (String createdAt){
-        this.createdAt = createdAt;
-        
-    }
-    
-    public double getFileSize (){
-        return fileSize;
-    }
-    public void setFileSize(double fileSize){
-        this.fileSize = fileSize;
-        
-    }
 }
-
-
-
