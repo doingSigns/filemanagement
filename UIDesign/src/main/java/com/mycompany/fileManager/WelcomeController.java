@@ -11,13 +11,17 @@ import com.mycompany.fileManager.database.DatabaseSetup;
 import com.mycompany.fileManager.model.User;
 import com.mycompany.fileManager.security.SecurityContextHolder;
 import com.mycompany.fileManager.services.FileService;
+import com.mycompany.fileManager.storage.FileChunk;
+import com.mycompany.fileManager.storage.FileDescription;
 import com.mycompany.fileManager.storage.StoredFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import com.mycompany.fileManager.utils.FileUtils;
 import java.nio.file.StandardOpenOption;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -327,11 +331,13 @@ public class WelcomeController {
     }
 
     @FXML
-    private void saveBtnHandler(ActionEvent event) {
+    private void saveBtnHandler(ActionEvent event) throws SQLException, JSchException, SftpException {
 
         try {
 
             FileChooser fileChooser = new FileChooser();
+            FileService fileService = new FileService ();
+            
             File file = fileChooser.showSaveDialog(fileContent.getScene().getWindow());
             if (file == null) {
                 return;
@@ -339,7 +345,7 @@ public class WelcomeController {
 
             String content = fileContent.getText();
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-
+           fileService.saveFile(file);
             dialogue("File Saved Successfully", "File Created Successfully");
             
         } catch (IOException e) {

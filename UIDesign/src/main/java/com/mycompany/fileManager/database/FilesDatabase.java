@@ -120,5 +120,36 @@ public class FilesDatabase implements FileOperationsInterface {
             throw ex;
         }
     }
+    
+    @Override
+    public StoredFile getFile(String fileN) throws SQLException {
+
+        
+        StoredFile file = new StoredFile ();
+
+        String query = "SELECT * FROM " + DatabaseTableNames.FILES + " WHERE file_name = (?)";
+
+        try (Connection con = DatabaseSetup.getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
+
+            preparedStatement.setString(1, fileN);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    Gson gson = new Gson();
+                    String fileId = resultSet.getString("file_id");
+                    String fileName = resultSet.getString("file_name");
+                    String ownerUserId = resultSet.getString("owner_user_id");
+                    List<String> sharedUserIds = gson.fromJson(resultSet.getString("shared_user_ids"), ArrayList.class);
+                    List<FileChunk> fileChunks = gson.fromJson(resultSet.getString("file_chunks"), ArrayList.class);
+                    FileDescription fileDescription = gson.fromJson(resultSet.getString("file_description"), FileDescription.class);
+                   return new StoredFile(fileId, fileName, fileChunks, fileDescription, ownerUserId, sharedUserIds);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsersDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return file;
+
+    }
 
 }
