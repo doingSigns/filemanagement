@@ -56,6 +56,36 @@ public class FileService {
 
         DatabaseSetup.filesDatabase.saveFile(dbFile);
     }
+    
+      public void saveFile(File file) throws IOException, JSchException, SftpException, SQLException {
+
+       String fileId = FileUtils.getUniqueId();
+       
+        StoredFile dbFile = new StoredFile();
+        dbFile.setOwnerUserId(SecurityContextHolder.context.getUserId());
+        dbFile.setFileChunks(new ArrayList());
+        dbFile.setFileId(fileId);
+        dbFile.setSharedUserIds(new ArrayList());
+        dbFile.setFileName(file.getName());
+        dbFile.setFileDescription(new FileDescription(FileUtils.currentTimeStamp(), FileUtils.getFileSizeInKb(file)));
+
+        List<File> fileChunks = FileUtils.splitFileIntoChunks(file, NO_OF_FILE_CHUNKS);
+
+        for (File chunk : fileChunks) {
+
+            FileServer destinationFileServer = FILE_SERVERS.get(fileChunks.indexOf(chunk));
+            //SFTPDelegate.copyFile(dbFile.getFileId(), file, destinationFileServer);
+
+            FileChunk fileChunk = new FileChunk();
+            fileChunk.setEncrypted(false);
+            fileChunk.setFileId(dbFile.getFileId());
+            fileChunk.setFileServerId(destinationFileServer.getServerId());
+
+            dbFile.getFileChunks().add(fileChunk);
+        }
+
+        DatabaseSetup.filesDatabase.saveFile(dbFile);
+    }
 
     public StoredFile renameFile(StoredFile file, String newFileName) throws SQLException {
 
@@ -66,3 +96,4 @@ public class FileService {
 
     }
 }
+

@@ -15,6 +15,7 @@ public interface FileOperationsInterface {
     List<StoredFile> getUserFiles(String userId);
     List<StoredFile> getUserSharedFiles(String userId);
     StoredFile saveFile(StoredFile file) throws SQLException;
+    StoredFile getFile(String fileN) throws SQLException;
     void createFilesTable(Connection connection) throws SQLException;
     
 }
