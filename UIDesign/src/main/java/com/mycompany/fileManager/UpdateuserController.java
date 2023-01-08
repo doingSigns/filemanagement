@@ -48,6 +48,8 @@ public class UpdateuserController implements Initializable {
 
     @FXML
     private Button updateBtn;
+    @FXML
+    private Button back;
 
     @FXML
     private PasswordField passwordField;
@@ -65,12 +67,32 @@ private void dialogue(String headerMsg, String contentMsg) {
         Stage secondaryStage = new Stage();
         Group root = new Group();
         Scene scene = new Scene(root, 300, 300, Color.DARKGRAY);
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText(headerMsg);
         alert.setContentText(contentMsg);
         Optional<ButtonType> result = alert.showAndWait();
+        
 }
+@FXML
+    private void backBtn(ActionEvent event) {
+
+        Stage secondaryStage = new Stage();
+        Stage primaryStage = (Stage) back.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("login");
+            secondaryStage.show();
+            primaryStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     @FXML
     void updateBtnHandler(ActionEvent event) throws InvalidKeySpecException, SQLException, IOException {

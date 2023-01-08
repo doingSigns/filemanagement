@@ -270,6 +270,7 @@ public class WelcomeController {
             fs.uploadFile(file);
 
             System.out.println("Succesful File Upload");
+             dialogue("File Uploaded Successfully", "Your file has been Uploaded");
         } catch (SftpException ex) {
             Logger.getLogger(WelcomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSchException ex) {
@@ -340,6 +341,7 @@ public class WelcomeController {
             Files.write(file.toPath(), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
             dialogue("File Saved Successfully", "File Created Successfully");
+            
         } catch (IOException e) {
             System.out.println("An error occured.");
             {

@@ -50,5 +50,6 @@
       </GridPane>
       <Button fx:id="updateBtn" layoutX="351.0" layoutY="250.0" mnemonicParsing="false" onAction="#updateBtnHandler" text="Update" textFill="#370ac9" />
       <Text fill="WHITE" layoutX="291.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Details" />
+      <Button fx:id="back" layoutX="62.0" layoutY="27.0" mnemonicParsing="false" onAction="#backBtn" text="Reload" />
    </children>  
 </AnchorPane>
