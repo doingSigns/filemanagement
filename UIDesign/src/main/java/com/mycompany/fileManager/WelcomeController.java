@@ -213,27 +213,21 @@ public class WelcomeController {
     void deleteuserBtn(ActionEvent event) throws InvalidKeySpecException, SQLException, IOException   {
          Stage secondaryStage = new Stage();
         Stage primaryStage = (Stage) delete.getScene().getWindow();
-        System.out.println("got it");
-        
+              
        FXMLLoader loader = new FXMLLoader();
-             if (!DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())) {
-                
-               
+             if (DatabaseSetup.usersDatabase.userExists(usernameTextField.getText().trim())) {
+     
 
-                    User user = new User(usernameTextField.getText().trim(), passwordField.getText().trim(), firstNameField.getText(), lastNameField.getText(), emailField.getText(), false);
-
-                    DatabaseSetup.usersDatabase.delUser(user);
+                  DatabaseSetup.usersDatabase.delUser(usernameTextField.getText().trim());
+                       dialogue("This User has been deleted", "");
            
-           dialogue("This User has been deleted", "");
-           loader.setLocation(getClass().getResource("signup.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root, 640, 480);
-                    secondaryStage.setScene(scene);
-                    SignupController controller = loader.getController();
-                 secondaryStage.setTitle("Show users");
-              //     controller.initialise(credentials);
-                    String msg = "some data sent from Register Controller";
-                    secondaryStage.setUserData(msg);
+            loader.setLocation(getClass().getResource("signup.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 640, 480);
+            secondaryStage.setScene(scene);
+            secondaryStage.setTitle("Kindly login");
+            secondaryStage.show();
+            primaryStage.close();
   
         }
     }
@@ -257,9 +251,20 @@ public class WelcomeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+ @FXML
+    void renamefile(ActionEvent event) {
 
     }
+    
+    @FXML
+    void deletefile(ActionEvent event) {
 
+    }
+    
+    
+    
     @FXML
     void uploadHandler(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) upload.getScene().getWindow();

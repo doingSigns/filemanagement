@@ -39,7 +39,7 @@
       <Button fx:id="logout" layoutX="558.0" layoutY="20.0" mnemonicParsing="false" onAction="#logoutBtn" text="Logout" />
       <Button fx:id="updateuser" layoutX="558.0" layoutY="48.0" mnemonicParsing="false" onAction="#updateuserBtn" text="Update" />
       <Button fx:id="delete" layoutX="557.0" layoutY="75.0" mnemonicParsing="false" onAction="#deleteuserBtn" text="Delete" />
-      <MenuButton fx:id="Upload" layoutX="29.0" layoutY="272.0" mnemonicParsing="false" text="Upload">
+      <MenuButton fx:id="Upload" layoutX="40.0" layoutY="439.0" mnemonicParsing="false" text="Upload">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#delete" text="Delete" />
             <MenuItem mnemonicParsing="false" onAction="#rename" text="Rename" />
